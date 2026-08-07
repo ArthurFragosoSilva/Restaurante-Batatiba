@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Montserrat, sans-serif;
+}
+
+body{
+    padding: 0;
+    margin: 0;
+}
+
+.cabecalho{
+    background-color: rgb(198, 16, 16);
+    margin: 0;
+    padding: 1rem;
+    height: 120px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10%;
+}
+
+.logo{
+    height: 200px;
+}
+
+.logo img{
+    height: 100%;
+    width: auto;
+    position: relative;
+    top: -5px;
+}
+
+.Categoria{
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    font-size: 20px;
+    color: white;
+}
+
+.Categoria h3{
+    line-height: 1;
+    transition: color 0.2s ease;
+    cursor: pointer;
+}
+
+.Categoria h3:hover {
+    color: #ffca28; 
+}
