@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
-/* --- VARIÁVEIS CSS (PALETA DE CORES E CONFIGURAÇÕES) --- */
+/* Palheta de Cores*/
 :root {
     --cor-principal: rgb(198, 16, 16);       /* Vermelho Batatiba */
     --cor-destaque: #ffca28;                 /* Amarelo Botão/Hover */
@@ -16,7 +16,7 @@
     --sombra-botao: 0 4px 14px rgba(255, 202, 40, 0.4);
 }
 
-/* --- RESET & CONFIGURAÇÕES GERAIS --- */
+/*  Configurações Principais*/
 * {
     padding: 0;
     margin: 0;
@@ -29,7 +29,8 @@ body {
     color: var(--cor-texto-escuro);
 }
 
-/* --- CABEÇALHO --- */
+/* cabeçalho do site */
+
 .cabecalho {
     background-color: var(--cor-principal);
     height: 120px;
@@ -41,6 +42,8 @@ body {
     position: relative;
     z-index: 10;
 }
+
+/* Logo */
 
 .logo {
     height: 160px;
@@ -75,7 +78,6 @@ body {
     transform: translateY(-2px);
 }
 
-/* --- SEÇÃO BANNER/DESTAQUE PRINCIPAL --- */
 main {
     padding: 60px 20px;
 }
@@ -95,7 +97,6 @@ main {
     min-height: 480px;
 }
 
-/* Lado do Texto */
 .coluna-texto {
     flex: 1;
     padding: 60px;
@@ -116,7 +117,7 @@ main {
     margin-bottom: 32px;
 }
 
-/* Botão Chamativo */
+
 .botao-acao {
     display: inline-block;
     background-color: var(--cor-destaque);
@@ -138,7 +139,6 @@ main {
     box-shadow: 0 6px 20px rgba(255, 202, 40, 0.6);
 }
 
-/* Lado da Imagem */
 .coluna-imagem {
     flex: 1;
     height: 100%;
@@ -152,7 +152,7 @@ main {
     display: block;
 }
 
-/* --- RESPONSIVIDADE (DISPOSITIVOS MÓVEIS) --- */
+/* --- Responsividade --- */
 @media (max-width: 900px) {
     .cabecalho {
         flex-direction: column;
