@@ -79,7 +79,7 @@ body {
 }
 
 main {
-    padding: 60px 20px;
+    padding: 60px 0px;
 }
 
 .container-destaque {
@@ -95,6 +95,7 @@ main {
     overflow: hidden;
     align-items: center;
     min-height: 480px;
+    margin-bottom: 70px;
 }
 
 .coluna-texto {
@@ -150,6 +151,36 @@ main {
     height: 100%;
     object-fit: cover;
     display: block;
+}
+
+/* Faixa Sem glutén */
+
+.container-faixa{
+     background-color: var(--cor-destaque);
+    
+}
+
+.faixa{
+    padding: 5px 20px;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    
+}
+
+.Selo img {
+    height: 110px;  
+    width: auto;    
+    display: block;
+}
+
+
+.Celiaco p {
+    color: var(--cor-texto-escuro);
+    font-weight: 700;
+    margin: 0;     
 }
 
 /* --- Responsividade --- */
