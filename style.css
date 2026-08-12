@@ -10,7 +10,7 @@
     --cor-texto-escuro: #111111;            /* Preto quase puro */
     --cor-texto-medio: #555555;             /* Cinza médio para textos */
     --cor-texto-claro: #ffffff;             /* Branco */
-    
+    --cor-cheddar: #ff9100;                /* Cor Cheddar*/
     --fonte-principal: 'Montserrat', sans-serif;
     --sombra-padrao: 0 12px 32px rgba(0, 0, 0, 0.08);
     --sombra-botao: 0 4px 14px rgba(255, 202, 40, 0.4);
@@ -132,6 +132,7 @@ main {
     border-radius: 50px;
     box-shadow: var(--sombra-botao);
     transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    border: none;
 }
 
 .botao-acao:hover {
@@ -167,6 +168,7 @@ main {
     align-items: center;
     justify-content: center;
     gap: 20px;
+    margin-bottom: 50px;
     
 }
 
@@ -182,6 +184,105 @@ main {
     font-weight: 700;
     margin: 0;     
 }
+
+/* Sessão Promoção*/
+
+.sessaoPromo{
+    
+}
+
+.promocao{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 0;
+}
+
+.titlePromo{
+    color: var(--cor-cheddar);
+    font-size: 34px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.container-promocoes{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+
+}
+
+.card-promo{
+    background-color: var(--cor-fundo-cartao);
+    border-radius: 16px;
+    box-shadow: var(--sombra-padrao);
+    width: 320px;
+    overflow: hidden;
+    transition: transform 0.3 ease;
+}
+
+.card-imagem{
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.card-imagem img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    display: block;
+}
+
+.card-conteudo {
+    padding: 24px; 
+}
+
+.card-conteudo h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--cor-texto-escuro);
+}
+
+.card-conteudo p{
+    font-size: 14px;
+    color: var(--cor-texto-medio);
+    line-height: 1.5;
+    margin-bottom: 20px;
+    height: 42px;
+}
+
+.precos {
+    display: flex;
+    align-items: center;
+    gap: 12px;       
+    margin-bottom: 20px;
+}
+
+.preco-antigo {
+    font-size: 14px;
+    color: #999999;
+    text-decoration: line-through; 
+}
+
+.preco-novo {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--cor-cheddar); 
+}
+
+.botao{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
 
 /* --- Responsividade --- */
 @media (max-width: 900px) {
