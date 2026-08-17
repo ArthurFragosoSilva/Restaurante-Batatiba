@@ -22,22 +22,44 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Função para desativar botões se chegar no limite
-    function updateButtons() {
+/*     function updateButtons() {
         prevBtn.disabled = currentIndex === 0;
         nextBtn.disabled = currentIndex >= cards.length - 1;
-    }
+    } */
 
     nextBtn.addEventListener('click', () => {
-        if (currentIndex < cards.length - 1) {
-            currentIndex++;
-            moveSlider();
-        }
+
+      const cardWidth = track.querySelector('.card-promo').offsetWidth + gap;
+      track.style.transition = 'transform 0.3s ease-in-out';
+      track.style.transform = `translateX(-${cardWidth}px)`;
+
+    // 2. Espera a animação acabar para reordenar os elementos no HTML
+        track.addEventListener('transitionend', function handler() {
+            track.removeEventListener('transitionend', handler);
+            
+            // Remove a transição para resetar a posição sem piscar
+            track.style.transition = 'none';
+            track.appendChild(track.firstElementChild);
+            track.style.transform = 'translateX(0)';
+        });
+
     });
+
     prevBtn.addEventListener('click', () => {
-        if (currentIndex > 0) {
-            currentIndex--;
-            moveSlider();
-        }
+        const cardWidth = track.querySelector('.card-promo').offsetWidth + gap;
+
+        // 1. Move o último card para o início da fila no HTML
+        track.insertBefore(track.lastElementChild, track.firstElementChild);
+
+        // 2. Desloca instantaneamente a fila para a esquerda (sem transição) para "esconder" o card inserido
+        track.style.transition = 'none';
+        track.style.transform = `translateX(-${cardWidth}px)`;
+
+        // 3. Usa um pequeno delay para ativar a animação deslizando até a posição zero
+        setTimeout(() => {
+            track.style.transition = 'transform 0.3s ease-in-out';
+            track.style.transform = 'translateX(0)';
+        }, 10);
     });
 
     window.addEventListener('resize', moveSlider);

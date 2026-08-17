@@ -457,3 +457,124 @@ main {
         font-size: 18px;
     }
 }
+
+.secao-quem-somos {
+    max-width: 1200px;
+    margin: 70px auto;
+    padding: 0 20px;
+}
+
+.container-qs {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+/* Mosaico de Imagem no Estilo Cartão */
+.mosaico-qs {
+    flex: 1;
+    position: relative;
+}
+
+.foto-principal {
+    background-color: var(--cor-fundo-cartao);
+    border-radius: 24px;
+    box-shadow: var(--sombra-padrao);
+    padding: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.foto-principal:hover {
+    transform: translateY(-5px);
+}
+
+.foto-principal img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    border-radius: 16px;
+    display: block;
+}
+
+/* Conteúdo de Texto */
+.conteudo-qs {
+    flex: 1;
+}
+
+.tag-subtitulo {
+    display: inline-block;
+    color: var(--cor-principal);
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.conteudo-qs h2 {
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--cor-texto-escuro);
+    line-height: 1.25;
+    margin-bottom: 20px;
+}
+
+.conteudo-qs p {
+    font-size: 16px;
+    color: var(--cor-texto-medio);
+    line-height: 1.7;
+    margin-bottom: 16px;
+}
+
+.conteudo-qs p strong {
+    color: var(--cor-texto-escuro);
+}
+
+.selo-celiaco-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background-color: var(--cor-fundo-cartao);
+    border: 2px solid var(--cor-destaque);
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-top: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.selo-celiaco-card .img-selo img {
+    height: 50px;
+    width: auto;
+    display: block;
+}
+
+.selo-celiaco-card h4 {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--cor-principal);
+    margin-bottom: 4px;
+}
+
+.selo-celiaco-card p {
+    font-size: 13px;
+    color: var(--cor-texto-medio);
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+    .container-qs {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .foto-principal img {
+        height: 280px;
+    }
+
+    .conteudo-qs h2 {
+        font-size: 28px;
+    }
+}
