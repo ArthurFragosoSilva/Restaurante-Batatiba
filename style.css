@@ -457,3 +457,558 @@ main {
         font-size: 18px;
     }
 }
+
+.secao-quem-somos {
+    max-width: 1200px;
+    margin: 70px auto;
+    padding: 0 20px;
+}
+
+.container-qs {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+/* Mosaico de Imagem no Estilo Cartão */
+.mosaico-qs {
+    flex: 1;
+    position: relative;
+}
+
+.foto-principal {
+    background-color: var(--cor-fundo-cartao);
+    border-radius: 24px;
+    box-shadow: var(--sombra-padrao);
+    padding: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.foto-principal:hover {
+    transform: translateY(-5px);
+}
+
+.foto-principal img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    border-radius: 16px;
+    display: block;
+}
+
+/* Conteúdo de Texto */
+.conteudo-qs {
+    flex: 1;
+}
+
+.tag-subtitulo {
+    display: inline-block;
+    color: var(--cor-principal);
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.conteudo-qs h2 {
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--cor-texto-escuro);
+    line-height: 1.25;
+    margin-bottom: 20px;
+}
+
+.conteudo-qs p {
+    font-size: 16px;
+    color: var(--cor-texto-medio);
+    line-height: 1.7;
+    margin-bottom: 16px;
+}
+
+.conteudo-qs p strong {
+    color: var(--cor-texto-escuro);
+}
+
+.selo-celiaco-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background-color: var(--cor-fundo-cartao);
+    border: 2px solid var(--cor-destaque);
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-top: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.selo-celiaco-card .img-selo img {
+    height: 50px;
+    width: auto;
+    display: block;
+}
+
+.selo-celiaco-card h4 {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--cor-principal);
+    margin-bottom: 4px;
+}
+
+.selo-celiaco-card p {
+    font-size: 13px;
+    color: var(--cor-texto-medio);
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+    .container-qs {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .foto-principal img {
+        height: 280px;
+    }
+
+    .conteudo-qs h2 {
+        font-size: 28px;
+    }
+}
+
+
+/* Botão Fixo do Whatssap*/
+
+.btn-whatsapp-flutuante{
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 60px;
+    height: 60px;
+    background-color: #25d366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    z-index: 9999;
+    transition: transform 0.3s ease, box-shadow 0.3 ease;
+}
+
+.btn-whatsapp-flutuante:hover{
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+
+.btn-whatsapp-flutuante img{
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+}
+
+.btn-avaliacao-flutuante {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    background-color: var(--cor-fundo-cartao);
+    color: var(--cor-texto-escuro);
+    border: 2px solid var(--cor-destaque);
+    padding: 8px 14px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+.btn-avaliacao-flutuante:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    background-color: var(--cor-destaque);
+}
+
+.btn-avaliacao-flutuante .icone-estrela {
+    font-size: 13px;
+}
+
+/* Oculta o texto em telas muito pequenas para não poluir */
+@media (max-width: 480px) {
+    .btn-avaliacao-flutuante .texto-btn {
+        display: none;
+    }
+    .btn-avaliacao-flutuante {
+        padding: 12px;
+        border-radius: 50%;
+    }
+
+}
+
+
+/* Seção Avaliações */
+.secao-avaliacoes {
+    max-width: 1200px;
+    margin: 80px auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.cabecalho-avaliacoes {
+    margin-bottom: 40px;
+}
+
+.cabecalho-avaliacoes h2 {
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--cor-texto-escuro);
+    margin: 8px 0 16px 0;
+}
+
+.nota-google {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--cor-fundo-cartao);
+    padding: 8px 20px;
+    border-radius: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.estrelas-geral, .estrelas {
+    color: #ffb400;
+    font-size: 18px;
+    letter-spacing: 2px;
+}
+
+.nota-google p {
+    font-size: 14px;
+    color: var(--cor-texto-medio);
+    margin: 0;
+}
+
+/* Cards de Depoimento */
+.cards-depoimentos {
+    display: flex;
+    gap: 25px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.card-depoimento {
+    background-color: var(--cor-fundo-cartao);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: var(--sombra-padrao);
+    flex: 1;
+    min-width: 280px;
+    max-width: 360px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease;
+}
+
+.card-depoimento:hover {
+    transform: translateY(-5px);
+}
+
+.card-depoimento .comentario {
+    font-size: 15px;
+    color: var(--cor-texto-medio);
+    line-height: 1.6;
+    margin: 15px 0 20px 0;
+    font-style: italic;
+}
+
+.autor-info strong {
+    display: block;
+    color: var(--cor-texto-escuro);
+    font-size: 15px;
+}
+
+.autor-info span {
+    font-size: 12px;
+    color: #888;
+}
+
+@media (max-width: 900px) {
+    .cards-depoimentos {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card-depoimento {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+
+
+
+/* ==========================================
+   SEÇÃO LOCALIZAÇÃO (DUAS UNIDADES)
+   ========================================== */
+
+.secao-localizacao {
+    max-width: 1200px;
+    margin: 80px auto;
+    padding: 0 20px;
+}
+
+.cabecalho-localizacao {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.cabecalho-localizacao h2 {
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--cor-texto-escuro);
+    margin: 8px 0;
+}
+
+.cabecalho-localizacao p {
+    font-size: 16px;
+    color: var(--cor-texto-medio);
+}
+
+/* Grid com as duas unidades */
+.grid-unidades {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+}
+
+/* Card Individual de Unidade */
+.card-unidade {
+    background-color: var(--cor-fundo-cartao);
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: var(--sombra-padrao);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-unidade:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 35px rgba(0, 0, 0, 0.12);
+}
+
+.card-unidade h3 {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--cor-principal);
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--cor-fundo-pagina);
+    padding-bottom: 12px;
+}
+
+/* Itens de Informação (Endereço, Horário, Destaque) */
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.info-item .icone {
+    font-size: 18px;
+    line-height: 1.4;
+}
+
+.info-item p {
+    font-size: 14px;
+    color: var(--cor-texto-medio);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.info-item p strong {
+    color: var(--cor-texto-escuro);
+}
+
+/* Container e Ajuste do Mapa (iframe do Google Maps) */
+.mapa-container {
+    margin-top: 20px;
+    width: 100%;
+    height: 240px;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.mapa-container iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 16px;
+}
+
+/* Responsividade (Telas menores e Celulares) */
+@media (max-width: 900px) {
+    .grid-unidades {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .cabecalho-localizacao h2 {
+        font-size: 28px;
+    }
+
+    .card-unidade {
+        padding: 24px;
+    }
+}
+
+
+/* ==========================================
+   ESTILOS DO RODAPÉ (FOOTER)
+   ========================================== */
+
+.rodape-site {
+    background-color: var(--cor-fundo-cartao);
+    border-top: 2px solid var(--cor-fundo-pagina);
+    padding-top: 60px;
+    margin-top: 100px;
+}
+
+.container-rodape {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.coluna-rodape {
+    flex: 1;
+    min-width: 240px;
+}
+
+/* Estilo da Marca/Logo no Rodapé */
+.logo-rodape {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--cor-texto-escuro);
+    margin-bottom: 12px;
+}
+
+.logo-rodape span {
+    color: var(--cor-destaque);
+}
+
+.coluna-rodape p {
+    font-size: 14px;
+    color: var(--cor-texto-medio);
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+.destaque-gluten {
+    color: #25d366 !important;
+    font-weight: 700;
+    margin-top: 10px;
+}
+
+/* Títulos das Colunas */
+.coluna-rodape h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--cor-texto-escuro);
+    margin-bottom: 20px;
+    position: relative;
+}
+
+/* Links Rápidos */
+.links-rodape {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.links-rodape li {
+    margin-bottom: 10px;
+}
+
+.links-rodape a {
+    color: var(--cor-texto-medio);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.links-rodape a:hover {
+    color: var(--cor-destaque);
+}
+
+/* Redes Sociais */
+.redes-sociais a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--cor-fundo-pagina);
+    color: var(--cor-texto-escuro);
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.redes-sociais a:hover {
+    background-color: var(--cor-destaque);
+    transform: translateY(-2px);
+}
+
+/* Linha de Direitos e Créditos */
+.rodape-direitos {
+    margin-top: 50px;
+    padding: 20px;
+    border-top: 1px solid var(--cor-fundo-pagina);
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.rodape-direitos p {
+    font-size: 13px;
+    color: #888;
+    margin: 0;
+}
+
+.creditos-dev {
+    font-weight: 600;
+}
+
+/* Responsividade do Rodapé */
+@media (max-width: 768px) {
+    .container-rodape {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .rodape-direitos {
+        flex-direction: column;
+        text-align: center;
+    }
+}
