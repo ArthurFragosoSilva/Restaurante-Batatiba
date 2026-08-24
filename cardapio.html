@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardapio | Restaurante</title>
+    <link rel="stylesheet" href="cardapio.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header class="cabecalho">
+    <div class="logo">
+        <a href="index.html" class="logo-link">
+            <img src="img/logo_Batatibasemfundo.png" alt="Logo Batatiba">
+        </a>
+    </div>
+    <nav class="categoria">
+        <a href="index.html">Início</a>
+        <a href="#cardapio">Cardápio</a>
+        <a href="index.html#promocoes">Promoções</a>
+        <a href="index.html#quem-somos">Quem Somos</a>
+    </nav>
+</header>
+
+    <!-- FAIXA CELÍACOS -->
+    <section class="container-faixa">
+        <div class="faixa">
+            <div class="Selo">
+                <img src="img/gluten free.png" alt="Sem Glúten">
+            </div>
+            <div class="Celiaco">
+                <p> 100% Livre de Glúten - Seguro para Celíacos </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO DO CARDÁPIO -->
+    <main class="container-cardapio" id="cardapio">
+        <div class="titulo-secao">
+            <h2>Nosso Cardápio</h2>
+            <p>Escolha sua combinação favorita e surpreenda-se</p>
+        </div>
+
+        <!-- FILTROS POR CATEGORIA -->
+       <div class="filtros-cardapio">
+        <button class="btn-filtro active" data-categoria="todos">Todos</button>
+        <button class="btn-filtro" data-categoria="torres">Torres de Batata</button>
+        <button class="btn-filtro" data-categoria="porcoes">Porções</button>
+        <button class="btn-filtro" data-categoria="bebidas">Bebidas</button>
+      </div>
+
+    <!-- GRID DE ITENS DO CARDÁPIO -->
+        <div class="grid-cardapio">
+            
+            <!-- Item 1: Torres -->
+            <div class="item-cardapio" data-categoria="torres">
+                <div class="item-img">
+                    <img src="img/Batata.png" alt="Torre Tradicional">
+                </div>
+                <div class="item-detalhes">
+                    <div class="item-header">
+                        <h3>Torre Tradicional</h3>
+                        <span class="preco">R$ 59,90</span>
+                    </div>
+                    <p class="descricao">Batata frita crocante, queijo derretido, bacon em cubos e molho especial da casa.</p>
+                </div>
+            </div>
+
+            <!-- Item 2: Torres -->
+             <div class="item-cardapio" data-categoria="torres">
+                <div class="item-img">
+                    <img src="img/Torre batata e alcatra.jpeg" alt="Torre de alcatra">
+                </div>
+                <div class="item-detalhes">
+                    <div class="item-header">
+                        <h3>Torre de Alcatra Acebolada</h3>
+                        <span class="preco">R$ 74,90</span>
+                    </div>
+                    <p class="descricao">Camadas de batata, tiras de alcatra suculenta, cebola caramelizada e cheddar gratinado</p>
+                </div>
+             </div>
+
+             <!-- Item 3: Porções -->
+            <div class="item-cardapio" data-categoria="porcoes">
+                <div class="item-img">
+                    <img src="img/Batata com Bacon.jpeg" alt="Bataca com Bacon">
+                </div>
+                <div class="item-detalhes">
+                    <div class="item-header">
+                        <h3>Porção Batacon</h3>
+                        <span class="preco">R$ 42,00</span>
+                    </div>
+                    <p class="descricao">Porção generosa de batata frita coberta com bastante bacon e molho cheddar.</p>
+                </div>
+            </div>
+
+            <!-- Item 4: Porções -->
+            <div class="item-cardapio" data-categoria="porcoes">
+                <div class="item-img">
+                    <img src="img/Batata Crincles com Calabresa.jpeg" alt="Batata Crinkles">
+                </div>
+                <div class="item-detalhes">
+                    <div class="item-header">
+                        <h3>Batata Crinkles com Calabresa</h3>
+                        <span class="preco">R$ 38,90</span>
+                    </div>
+                    <p class="descricao">Batatas onduladas crocantes acompanhadas de fatias de calabresa acebolada.</p>
+                </div>
+            </div>
+
+            <!-- Item 5: Bebidas -->
+            <div class="item-cardapio" data-categoria="bebidas">
+                <div class="item-img">
+                    <img src="img/Batata.png" alt="Refrigerante Lata">
+                </div>
+                <div class="item-detalhes">
+                    <div class="item-header">
+                        <h3>Refrigerante Lata (350ml)</h3>
+                        <span class="preco">R$ 7,50</span>
+                    </div>
+                    <p class="descricao">Coca-Cola, Coca Zero, Guaraná Antarctica, Fanta Laranja ou Sprite.</p>
+                </div>
+            </div>
+
+            <!-- Item 6: Bebidas -->
+            <div class="item-cardapio" data-categoria="bebidas">
+                <div class="item-img">
+                    <img src="img/Batata.png" alt="Suco Natural">
+                </div>
+                <div class="item-detalhes">
+                    <div class="item-header">
+                        <h3>Suco Natural (500ml)</h3>
+                        <span class="preco">R$ 11,00</span>
+                    </div>
+                    <p class="descricao">Sabores: Laranja, Limão ou Maracujá (Feito na hora).</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+ 
+    <script src="cardapio.js"></script>
+</body>
+</html>
