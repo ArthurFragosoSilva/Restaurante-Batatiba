@@ -1,7 +1,3 @@
-//===========================//
-//       Botão Entrar        //
-//===========================//
-
 // ===== ELEMENTOS =====
 const overlay = document.getElementById('overlay');
 const openBtn = document.getElementById('openModal');
@@ -10,6 +6,7 @@ const closeBtn = document.getElementById('closeModal');
 const screenChoice = document.getElementById('screenChoice');
 const screenLogin = document.getElementById('screenLogin');
 const screenRegister = document.getElementById('screenRegister');
+const screenProfile = document.getElementById('screenProfile');
 
 const btnLogin = document.getElementById('btnLogin');
 const btnRegister = document.getElementById('btnRegister');
@@ -17,14 +14,75 @@ const backBtns = document.querySelectorAll('[data-back]');
 
 const formLogin = document.getElementById('formLogin');
 const formRegister = document.getElementById('formRegister');
+const formProfile = document.getElementById('formProfile');
 
-const allScreens = [screenChoice, screenLogin, screenRegister];
+const inputAvatar = document.getElementById('inputAvatar');
+const avatarImage = document.getElementById('avatarImage');
+const btnLogout = document.getElementById('btnLogout');
+
+const allScreens = [screenChoice, screenLogin, screenRegister, screenProfile];
+
+// Guarda o telefone (só dígitos) do usuário que está sendo editado no perfil,
+// para localizar o registro certo em 'batatiba_users' mesmo se o telefone for alterado.
+let currentUserOriginalPhone = '';
+
+// ===== NAVEGAÇÃO ENTRE TELAS =====
+function showScreen(target){
+  allScreens.forEach(screen => {
+    if (screen) {
+      screen.classList.toggle('hidden', screen !== target);
+    }
+  });
+}
+
+function updateHeaderButton(user) {
+  if (!openBtn) return;
+
+  if (user && user.name) {
+    const firstName = user.name.split(' ')[0];
+    const inicial = firstName.charAt(0).toUpperCase();
+
+    openBtn.classList.add('logged');
+    openBtn.setAttribute('aria-label', `Perfil de ${firstName}`);
+    openBtn.innerHTML = `<span class="avatar-circle">${
+      user.avatar
+        ? `<img src="${user.avatar}" alt="Foto de perfil de ${firstName}">`
+        : `<span class="avatar-iniciais">${inicial}</span>`
+    }</span>`;
+  } else {
+    openBtn.classList.remove('logged');
+    openBtn.removeAttribute('aria-label');
+    openBtn.textContent = 'Entrar';
+  }
+}
+
+// Preenche a tela de perfil com os dados do usuário logado
+function populateProfile(user){
+  const profName = document.getElementById('profName');
+  const profEmail = document.getElementById('profEmail');
+  const profPhone = document.getElementById('profPhone');
+
+  if (profName) profName.value = user.name || '';
+  if (profEmail) profEmail.value = user.email || '';
+  if (profPhone) profPhone.value = user.phone || '';
+  if (avatarImage) avatarImage.src = user.avatar || 'https://via.placeholder.com/100';
+
+  currentUserOriginalPhone = (user.phone || '').replace(/\D/g, '');
+}
 
 // ===== ABRIR / FECHAR MODAL =====
 function openModal(){
   overlay.classList.add('active');
   document.body.style.overflow = 'hidden';
-  showScreen(screenChoice);
+
+  const loggedUser = JSON.parse(localStorage.getItem('batatiba_logged_user'));
+
+  if (loggedUser) {
+    populateProfile(loggedUser);
+    showScreen(screenProfile);
+  } else {
+    showScreen(screenChoice);
+  }
 }
 
 function closeModal(){
@@ -32,38 +90,40 @@ function closeModal(){
   document.body.style.overflow = '';
   setTimeout(() => {
     showScreen(screenChoice);
-    resetForm(formLogin);
-    resetForm(formRegister);
+    if (formLogin) resetForm(formLogin);
+    if (formRegister) resetForm(formRegister);
   }, 250);
 }
 
-openBtn.addEventListener('click', openModal);
-closeBtn.addEventListener('click', closeModal);
-
-overlay.addEventListener('click', (e) => {
-  if (e.target === overlay) closeModal();
-});
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && overlay.classList.contains('active')) closeModal();
-});
-
-// ===== NAVEGAÇÃO ENTRE TELAS =====
-function showScreen(target){
-  allScreens.forEach(screen => {
-    screen.classList.toggle('hidden', screen !== target);
+if (openBtn) {
+  openBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    openModal();
   });
 }
 
-btnLogin.addEventListener('click', () => showScreen(screenLogin));
-btnRegister.addEventListener('click', () => showScreen(screenRegister));
+if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+if (overlay) {
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeModal();
+  });
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && overlay && overlay.classList.contains('active')) closeModal();
+});
+
+if (btnLogin) btnLogin.addEventListener('click', () => showScreen(screenLogin));
+if (btnRegister) btnRegister.addEventListener('click', () => showScreen(screenRegister));
 
 backBtns.forEach(btn => {
   btn.addEventListener('click', () => showScreen(screenChoice));
 });
 
-// ===== HELPERS DE VALIDAÇÃO =====
+// ===== HELPERS E VALIDAÇÕES =====
 function setError(input, message){
+  if (!input) return;
   const errorEl = document.querySelector(`[data-error-for="${input.id}"]`);
   if (message){
     input.classList.add('invalid');
@@ -84,11 +144,11 @@ function isValidEmail(value){
 }
 
 function resetForm(form){
+  if (!form) return;
   form.reset();
   form.querySelectorAll('input').forEach(input => setError(input, ''));
 }
 
-// Máscara simples de telefone (00) 00000-0000
 function maskPhone(e){
   let digits = e.target.value.replace(/\D/g, '').slice(0, 11);
   if (digits.length > 6){
@@ -102,172 +162,272 @@ function maskPhone(e){
   }
 }
 
-document.getElementById('loginPhone').addEventListener('input', maskPhone);
-document.getElementById('regPhone').addEventListener('input', maskPhone);
-
-// ===== LOGIN =====
-formLogin.addEventListener('submit', (e) => {
-  e.preventDefault();
-
-  const phone = document.getElementById('loginPhone');
-  const password = document.getElementById('loginPassword');
-  let valid = true;
-
-  if (!isValidPhone(phone.value)){
-    setError(phone, 'Informe um telefone válido');
-    valid = false;
-  } else {
-    setError(phone, '');
-  }
-
-  if (password.value.length < 6){
-    setError(password, 'A senha deve ter ao menos 6 caracteres');
-    valid = false;
-  } else {
-    setError(password, '');
-  }
-
-  if (!valid) return;
-
-  // Aqui entraria a chamada real de autenticação (API/back-end)
-  console.log('Login enviado:', {
-    phone: phone.value,
-    password: password.value
-  });
-
-  alert('Login realizado com sucesso!');
-  closeModal();
-});
+const loginPhone = document.getElementById('loginPhone');
+const regPhone = document.getElementById('regPhone');
+const profPhoneInput = document.getElementById('profPhone');
+if (loginPhone) loginPhone.addEventListener('input', maskPhone);
+if (regPhone) regPhone.addEventListener('input', maskPhone);
+if (profPhoneInput) profPhoneInput.addEventListener('input', maskPhone);
 
 // ===== CADASTRO =====
-formRegister.addEventListener('submit', (e) => {
-  e.preventDefault();
+if (formRegister) {
+  formRegister.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-  const name = document.getElementById('regName');
-  const email = document.getElementById('regEmail');
-  const phone = document.getElementById('regPhone');
-  const password = document.getElementById('regPassword');
-  const confirmPassword = document.getElementById('regConfirmPassword');
-  let valid = true;
+    const name = document.getElementById('regName');
+    const email = document.getElementById('regEmail');
+    const phone = document.getElementById('regPhone');
+    const password = document.getElementById('regPassword');
+    const confirmPassword = document.getElementById('regConfirmPassword');
+    let valid = true;
 
-  if (name.value.trim().split(' ').filter(Boolean).length < 2){
-    setError(name, 'Informe seu nome completo');
-    valid = false;
-  } else {
-    setError(name, '');
-  }
+    if (name.value.trim().split(' ').filter(Boolean).length < 2){
+      setError(name, 'Informe seu nome completo');
+      valid = false;
+    } else {
+      setError(name, '');
+    }
 
-  if (!isValidEmail(email.value)){
-    setError(email, 'Informe um e-mail válido');
-    valid = false;
-  } else {
-    setError(email, '');
-  }
+    if (!isValidEmail(email.value)){
+      setError(email, 'Informe um e-mail válido');
+      valid = false;
+    } else {
+      setError(email, '');
+    }
 
-  if (!isValidPhone(phone.value)){
-    setError(phone, 'Informe um telefone válido');
-    valid = false;
-  } else {
-    setError(phone, '');
-  }
+    if (!isValidPhone(phone.value)){
+      setError(phone, 'Informe um telefone válido');
+      valid = false;
+    } else {
+      setError(phone, '');
+    }
 
-  if (password.value.length < 6){
-    setError(password, 'A senha deve ter ao menos 6 caracteres');
-    valid = false;
-  } else {
-    setError(password, '');
-  }
+    if (password.value.length < 6){
+      setError(password, 'A senha deve ter ao menos 6 caracteres');
+      valid = false;
+    } else {
+      setError(password, '');
+    }
 
-  if (confirmPassword.value !== password.value || confirmPassword.value === ''){
-    setError(confirmPassword, 'As senhas não coincidem');
-    valid = false;
-  } else {
-    setError(confirmPassword, '');
-  }
+    if (confirmPassword.value !== password.value || confirmPassword.value === ''){
+      setError(confirmPassword, 'As senhas não coincidem');
+      valid = false;
+    } else {
+      setError(confirmPassword, '');
+    }
 
-  if (!valid) return;
+    if (!valid) return;
 
-  // Aqui entraria a chamada real de cadastro (API/back-end)
-  console.log('Cadastro enviado:', {
-    name: name.value,
-    email: email.value,
-    phone: phone.value,
-    password: password.value
+    const users = JSON.parse(localStorage.getItem('batatiba_users')) || [];
+    const cleanPhone = phone.value.replace(/\D/g, '');
+    const cleanEmail = email.value.trim().toLowerCase();
+
+    const existingUser = users.find(u => {
+      const uPhone = u.phone.replace(/\D/g, '');
+      const uEmail = u.email.trim().toLowerCase();
+      return uPhone === cleanPhone || uEmail === cleanEmail;
+    });
+
+    if (existingUser) {
+      if (existingUser.phone.replace(/\D/g, '') === cleanPhone) setError(phone, 'Telefone já cadastrado');
+      if (existingUser.email.trim().toLowerCase() === cleanEmail) setError(email, 'E-mail já cadastrado');
+      return;
+    }
+
+    const newUser = {
+      name: name.value.trim(),
+      email: email.value.trim(),
+      phone: phone.value.trim(),
+      password: password.value,
+      avatar: ''
+    };
+
+    users.push(newUser);
+    localStorage.setItem('batatiba_users', JSON.stringify(users));
+
+    alert('Conta criada com sucesso! Redirecionando para o login...');
+    resetForm(formRegister);
+    showScreen(screenLogin);
   });
+}
 
-  alert('Conta criada com sucesso!');
-  closeModal();
+// ===== LOGIN =====
+if (formLogin) {
+  formLogin.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const phone = document.getElementById('loginPhone');
+    const password = document.getElementById('loginPassword');
+    let valid = true;
+
+    if (!isValidPhone(phone.value)){
+      setError(phone, 'Informe um telefone válido');
+      valid = false;
+    } else {
+      setError(phone, '');
+    }
+
+    if (password.value.length < 6){
+      setError(password, 'A senha deve ter ao menos 6 caracteres');
+      valid = false;
+    } else {
+      setError(password, '');
+    }
+
+    if (!valid) return;
+
+    const users = JSON.parse(localStorage.getItem('batatiba_users')) || [];
+    const cleanLoginPhone = phone.value.replace(/\D/g, '');
+
+    // Compara apenas os números do telefone e a senha
+    const matchedUser = users.find(u => 
+      u.phone.replace(/\D/g, '') === cleanLoginPhone && u.password === password.value
+    );
+
+    if (!matchedUser) {
+      setError(password, 'Telefone ou senha incorretos');
+      return;
+    }
+
+    localStorage.setItem('batatiba_logged_user', JSON.stringify(matchedUser));
+    updateHeaderButton(matchedUser);
+
+    alert(`Seja bem-vindo(a), ${matchedUser.name.split(' ')[0]}!`);
+    closeModal();
+  });
+}
+
+// ===== PERFIL (edição de dados) =====
+if (formProfile) {
+  formProfile.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById('profName');
+    const email = document.getElementById('profEmail');
+    const phone = document.getElementById('profPhone');
+    let valid = true;
+
+    if (name.value.trim().split(' ').filter(Boolean).length < 2){
+      setError(name, 'Informe seu nome completo');
+      valid = false;
+    } else {
+      setError(name, '');
+    }
+
+    if (!isValidEmail(email.value)){
+      setError(email, 'Informe um e-mail válido');
+      valid = false;
+    } else {
+      setError(email, '');
+    }
+
+    if (!isValidPhone(phone.value)){
+      setError(phone, 'Informe um telefone válido');
+      valid = false;
+    } else {
+      setError(phone, '');
+    }
+
+    if (!valid) return;
+
+    const users = JSON.parse(localStorage.getItem('batatiba_users')) || [];
+    const idx = users.findIndex(u => u.phone.replace(/\D/g, '') === currentUserOriginalPhone);
+
+    if (idx === -1) return;
+
+    users[idx].name = name.value.trim();
+    users[idx].email = email.value.trim();
+    users[idx].phone = phone.value.trim();
+    if (avatarImage && avatarImage.src) {
+      users[idx].avatar = avatarImage.src;
+    }
+
+    localStorage.setItem('batatiba_users', JSON.stringify(users));
+    localStorage.setItem('batatiba_logged_user', JSON.stringify(users[idx]));
+
+    currentUserOriginalPhone = users[idx].phone.replace(/\D/g, '');
+    updateHeaderButton(users[idx]);
+
+    alert('Perfil atualizado com sucesso!');
+    closeModal();
+  });
+}
+
+// Pré-visualização/upload da foto de perfil
+if (inputAvatar) {
+  inputAvatar.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      if (avatarImage) avatarImage.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+// Sair da conta
+if (btnLogout) {
+  btnLogout.addEventListener('click', () => {
+    localStorage.removeItem('batatiba_logged_user');
+    updateHeaderButton(null);
+    closeModal();
+  });
+}
+
+// Checar Login na inicialização
+document.addEventListener('DOMContentLoaded', () => {
+  const loggedUser = JSON.parse(localStorage.getItem('batatiba_logged_user'));
+  updateHeaderButton(loggedUser);
 });
 
-
-
-//==============////==============//
-
-
+//============== CARROSSEL ==============//
 document.addEventListener('DOMContentLoaded', function() {
-    
     const track = document.getElementById('sliderTrack');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
-    const cards = track.querySelectorAll('.card-promo');
+    if (!track) return;
 
-    // Configurações
-    let currentIndex = 0; 
+    const cards = track.querySelectorAll('.card-promo');
     const gap = 30; 
 
-    // Função que faz o cálculo e move o slider
     function moveSlider() {
-        if (cards.length === 0) return;
-
+        if (!cards || cards.length === 0) return;
         const cardWidth = cards[0].offsetWidth;
-        
-        const amountToMove = (cardWidth + gap) * currentIndex;
+        const amountToMove = (cardWidth + gap) * 0;
         track.style.transform = `translateX(-${amountToMove}px)`;
-
-        updateButtons();
     }
 
-    // Função para desativar botões se chegar no limite
-/*     function updateButtons() {
-        prevBtn.disabled = currentIndex === 0;
-        nextBtn.disabled = currentIndex >= cards.length - 1;
-    } */
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        const cardWidth = track.querySelector('.card-promo').offsetWidth + gap;
+        track.style.transition = 'transform 0.3s ease-in-out';
+        track.style.transform = `translateX(-${cardWidth}px)`;
 
-    nextBtn.addEventListener('click', () => {
-
-      const cardWidth = track.querySelector('.card-promo').offsetWidth + gap;
-      track.style.transition = 'transform 0.3s ease-in-out';
-      track.style.transform = `translateX(-${cardWidth}px)`;
-
-    // 2. Espera a animação acabar para reordenar os elementos no HTML
         track.addEventListener('transitionend', function handler() {
             track.removeEventListener('transitionend', handler);
-            
-            // Remove a transição para resetar a posição sem piscar
             track.style.transition = 'none';
             track.appendChild(track.firstElementChild);
             track.style.transform = 'translateX(0)';
         });
+      });
+    }
 
-    });
-
-    prevBtn.addEventListener('click', () => {
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
         const cardWidth = track.querySelector('.card-promo').offsetWidth + gap;
 
-        // 1. Move o último card para o início da fila no HTML
         track.insertBefore(track.lastElementChild, track.firstElementChild);
-
-        // 2. Desloca instantaneamente a fila para a esquerda (sem transição) para "esconder" o card inserido
         track.style.transition = 'none';
         track.style.transform = `translateX(-${cardWidth}px)`;
 
-        // 3. Usa um pequeno delay para ativar a animação deslizando até a posição zero
         setTimeout(() => {
             track.style.transition = 'transform 0.3s ease-in-out';
             track.style.transform = 'translateX(0)';
         }, 10);
-    });
+      });
+    }
 
     window.addEventListener('resize', moveSlider);
-    updateButtons();
 });

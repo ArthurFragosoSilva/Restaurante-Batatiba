@@ -11,7 +11,6 @@
 </head>
 <body>
 
-    <!-- CABEÇALHO -->
     <header class="cabecalho">
         <div class="logo">
             <img src="img/logo_Batatibasemfundo.png" alt="Logo Batatiba">
@@ -23,106 +22,131 @@
             <a href="#localizacao">Localização</a>
             <button class="btn-entrar" id="openModal">Entrar</button>
         </nav>
-
-
     </header>
 
-    <!-- MODAL -->
     <div class="overlay" id="overlay">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-        <button class="modal-close" id="closeModal" aria-label="Fechar">&times;</button>
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <button class="modal-close" id="closeModal" aria-label="Fechar">×</button>
 
-        <!-- TELA 1: ESCOLHA -->
         <div class="modal-screen" id="screenChoice">
-        <div class="modal-title" id="modalTitle">Bem-vindo</div>
-        <div class="modal-sub">Escolha como deseja continuar</div>
+          <div class="modal-title" id="modalTitle">Bem-vindo</div>
+          <div class="modal-sub">Escolha como deseja continuar</div>
 
-        <div class="modal-options">
+          <div class="modal-options">
             <button class="option-btn primary" id="btnLogin">
-            <span>Entrar
+              <span>Entrar
                 <small>Já tenho uma conta</small>
-            </span>
-            <span class="arrow">→</span>
+              </span>
+              <span class="arrow">→</span>
             </button>
 
             <button class="option-btn" id="btnRegister">
-            <span>Cadastrar
+              <span>Cadastrar
                 <small>Quero criar uma conta nova</small>
-            </span>
-            <span class="arrow">→</span>
+              </span>
+              <span class="arrow">→</span>
             </button>
-        </div>
+          </div>
         </div>
 
-        <!-- TELA 2: LOGIN -->
         <div class="modal-screen hidden" id="screenLogin">
-        <button class="back-btn" data-back>← Voltar</button>
-        <div class="modal-title">Entrar</div>
-        <div class="modal-sub">Acesse com seu telefone e senha</div>
+          <button class="back-btn" data-back>← Voltar</button>
+          <div class="modal-title">Entrar</div>
+          <div class="modal-sub">Acesse com seu telefone e senha</div>
 
-        <form id="formLogin" novalidate>
+          <form id="formLogin" novalidate>
             <div class="field">
-            <label for="loginPhone">Número de telefone</label>
-            <input type="tel" id="loginPhone" name="phone" placeholder="(00) 00000-0000" required>
-            <span class="error-msg" data-error-for="loginPhone"></span>
+              <label for="loginPhone">Número de telefone</label>
+              <input type="tel" id="loginPhone" name="phone" placeholder="(00) 00000-0000" required>
+              <span class="error-msg" data-error-for="loginPhone"></span>
             </div>
 
             <div class="field">
-            <label for="loginPassword">Senha</label>
-            <input type="password" id="loginPassword" name="password" placeholder="Sua senha" required>
-            <span class="error-msg" data-error-for="loginPassword"></span>
+              <label for="loginPassword">Senha</label>
+              <input type="password" id="loginPassword" name="password" placeholder="Sua senha" required>
+              <span class="error-msg" data-error-for="loginPassword"></span>
             </div>
 
             <button type="submit" class="submit-btn">Entrar</button>
-        </form>
+          </form>
         </div>
 
-        <!-- TELA 3: CADASTRO -->
         <div class="modal-screen hidden" id="screenRegister">
-        <button class="back-btn" data-back>← Voltar</button>
-        <div class="modal-title">Cadastrar</div>
-        <div class="modal-sub">Preencha seus dados para criar sua conta</div>
+          <button class="back-btn" data-back>← Voltar</button>
+          <div class="modal-title">Cadastrar</div>
+          <div class="modal-sub">Preencha seus dados para criar sua conta</div>
 
-        <form id="formRegister" novalidate>
+          <form id="formRegister" novalidate>
             <div class="field">
-            <label for="regName">Nome completo</label>
-            <input type="text" id="regName" name="fullname" placeholder="Seu nome completo" required>
-            <span class="error-msg" data-error-for="regName"></span>
+              <label for="regName">Nome completo</label>
+              <input type="text" id="regName" name="fullname" placeholder="Seu nome completo" required>
+              <span class="error-msg" data-error-for="regName"></span>
             </div>
 
             <div class="field">
-            <label for="regEmail">E-mail</label>
-            <input type="email" id="regEmail" name="email" placeholder="seuemail@exemplo.com" required>
-            <span class="error-msg" data-error-for="regEmail"></span>
+              <label for="regEmail">E-mail</label>
+              <input type="email" id="regEmail" name="email" placeholder="seuemail@exemplo.com" required>
+              <span class="error-msg" data-error-for="regEmail"></span>
             </div>
 
             <div class="field">
-            <label for="regPhone">Número de telefone</label>
-            <input type="tel" id="regPhone" name="phone" placeholder="(00) 00000-0000" required>
-            <span class="error-msg" data-error-for="regPhone"></span>
+              <label for="regPhone">Número de telefone</label>
+              <input type="tel" id="regPhone" name="phone" placeholder="(00) 00000-0000" required>
+              <span class="error-msg" data-error-for="regPhone"></span>
             </div>
 
             <div class="field">
-            <label for="regPassword">Senha</label>
-            <input type="password" id="regPassword" name="password" placeholder="Crie uma senha" required>
-            <span class="error-msg" data-error-for="regPassword"></span>
+              <label for="regPassword">Senha</label>
+              <input type="password" id="regPassword" name="password" placeholder="Crie uma senha" required>
+              <span class="error-msg" data-error-for="regPassword"></span>
             </div>
 
             <div class="field">
-            <label for="regConfirmPassword">Confirmar senha</label>
-            <input type="password" id="regConfirmPassword" name="confirmPassword" placeholder="Repita a senha" required>
-            <span class="error-msg" data-error-for="regConfirmPassword"></span>
+              <label for="regConfirmPassword">Confirmar senha</label>
+              <input type="password" id="regConfirmPassword" name="confirmPassword" placeholder="Repita a senha" required>
+              <span class="error-msg" data-error-for="regConfirmPassword"></span>
             </div>
 
             <button type="submit" class="submit-btn">Criar conta</button>
-        </form>
+          </form>
         </div>
-    </div>
+
+        <div class="modal-screen hidden" id="screenProfile">
+          <h2 class="modal-title">Meu Perfil</h2>
+          <p class="modal-sub">Gerencie suas informações</p>
+
+          <form id="formProfile">
+            <div class="profile-avatar-container">
+              <div class="avatar-preview">
+                <img id="avatarImage" src="https://via.placeholder.com/100" alt="Foto de perfil">
+              </div>
+              <label for="inputAvatar" class="btn-change-avatar">Alterar foto</label>
+              <input type="file" id="inputAvatar" accept="image/*" class="hidden-input">
+            </div>
+
+            <div class="field">
+              <label for="profName">Nome Completo</label>
+              <input type="text" id="profName" required>
+            </div>
+
+            <div class="field">
+              <label for="profEmail">E-mail</label>
+              <input type="email" id="profEmail" required>
+            </div>
+
+            <div class="field">
+              <label for="profPhone">Telefone</label>
+              <input type="tel" id="profPhone" required>
+            </div>
+
+            <button type="submit" class="submit-btn">Salvar Alterações</button>
+            <button type="button" id="btnLogout" class="logout-btn">Sair da Conta</button>
+          </form>
+        </div>
+
+      </div>
     </div>
 
-    
-
-    <!-- CONTEÚDO PRINCIPAL -->
     <main>
         <section class="container-destaque">
             <div class="cartao-destaque">
@@ -153,17 +177,12 @@
                 <h2 class="titlePromo"> Promoções </h2>
             </div>
 
-            <!-- NOVA ESTRUTURA DO CARROSSEL -->
             <div class="carousel-container">
-                <!-- Botão Esquerdo -->
-                <button class="carousel-button prev" id="prevBtn" aria-label="Promoção anterior">&#10094;</button>
+                <button class="carousel-button prev" id="prevBtn" aria-label="Promoção anterior">❮</button>
                 
-                <!-- Janela visual (esconde o que está fora) -->
                 <div class="slider-window">
-                    <!-- Faixa longa que contém todos os cards -->
                     <div class="container-promocoes slider-track" id="sliderTrack">
                         
-                        <!-- Card 1 -->
                         <div class="card-promo">
                             <div class="card-imagem">
                                 <img src="img/Batata.png" alt="Combo Promocional">
@@ -181,7 +200,6 @@
                             </div>
                         </div>
 
-                        <!-- Card 2 -->
                         <div class="card-promo">
                             <div class="card-imagem">
                                 <img src="img/Batata com Alcatra.jpeg" alt="Combo Promocional">
@@ -199,7 +217,6 @@
                             </div>
                         </div>
 
-                        <!-- Card 3 -->
                         <div class="card-promo">
                             <div class="card-imagem">
                                 <img src="img/Torre batata e alcatra.jpeg" alt="Combo Promocional">
@@ -217,7 +234,6 @@
                             </div>
                         </div>
 
-                   
                         <div class="card-promo">
                             <div class="card-imagem">
                                 <img src="img/Batata com Bacon.jpeg" alt="Combo Promocional">
@@ -235,7 +251,7 @@
                             </div>
                         </div>
 
-                           <div class="card-promo">
+                        <div class="card-promo">
                             <div class="card-imagem">
                                 <img src="img/Batata Crincles com Calabresa.jpeg" alt="Combo Promocional">
                             </div>
@@ -255,8 +271,7 @@
                     </div>
                 </div>
 
-                <!-- Botão Direito -->
-                <button class="carousel-button next" id="nextBtn" aria-label="Próxima promoção">&#10095;</button>
+                <button class="carousel-button next" id="nextBtn" aria-label="Próxima promoção">❯</button>
             </div>
         </section>
 
@@ -282,7 +297,7 @@
 
                   <div class="selo-celiaco-card">
                         <div class="img-selo">
-                            <img src="img/gluten free.png" alt="Selo Sem Glúten Batatiba"> <!-- ajuste o caminho da sua imagem -->
+                            <img src="img/gluten free.png" alt="Selo Sem Glúten Batatiba">
                         </div>
                         <div class="texto-selo">
                             <h4>100% Sem Glúten</h4>
@@ -294,7 +309,6 @@
             </div>
         </section>
 
-        <!-- SEÇÃO AVALIAÇÕES E DEPOIMENTOS -->
         <section class="secao-avaliacoes" id="avaliacoes">
             <div class="container-avaliacoes">
                 <div class="cabecalho-avaliacoes">
@@ -307,7 +321,6 @@
                 </div>
 
                 <div class="cards-depoimentos">
-                    <!-- Card 1 -->
                     <div class="card-depoimento">
                         <div class="estrelas">★★★★★</div>
                         <p class="comentario">"A melhor torre de batata que já comi! O recheio vem super cremoso até o fundo. Além disso, o fato de ser 100% sem glúten me dá total segurança como celíaca."</p>
@@ -317,7 +330,6 @@
                         </div>
                     </div>
 
-                    <!-- Card 2 -->
                     <div class="card-depoimento">
                         <div class="estrelas">★★★★★</div>
                         <p class="comentario">"Atendimento impecável e batata crocante de verdade! Pedimos o combo com alcatra e serviu super bem 3 pessoas. Com certeza voltaremos mais vezes."</p>
@@ -327,7 +339,6 @@
                         </div>
                     </div>
 
-                    <!-- Card 3 -->
                     <div class="card-depoimento">
                         <div class="estrelas">★★★★☆</div>
                         <p class="comentario">"Espaço muito aconchegante e porções bem generosas. Vale muito a pena ir em família ou com amigos!"</p>
@@ -340,7 +351,6 @@
             </div>
         </section>
 
-
         <section class="secao-localizacao" id="localizacao">
             <div class="container-localizacao">
                 <div class="cabecalho-localizacao">
@@ -351,7 +361,6 @@
 
                 <div class="grid-unidades">
                     
-                    <!-- Unidade 1: Água Verde -->
                     <div class="card-unidade">
                         <h3>Batatiba — Água Verde</h3>
                         
@@ -370,13 +379,11 @@
                             <p><strong>Destaque:</strong> Cozinha 100% dedicada sem glúten e espaço físico próprio.</p>
                         </div>
 
-                        <!-- Mapa da Unidade Água Verde -->
                         <div class="mapa-container">
                             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3602.781292314027!2d-49.27995272482791!3d-25.445574477551904!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dce5a520b3f975%3A0x2b393187fb775075!2sBatatiba%20Agua%20Verde!5e0!3m2!1spt-BR!2sbr!4v1787085046479!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
                         </div>
                     </div>
 
-                    <!-- Unidade 2: SOUQ -->
                     <div class="card-unidade">
                         <h3>Batatiba — Espaço SOUQ</h3>
                         
@@ -395,7 +402,6 @@
                             <p><strong>Destaque:</strong> Ambiente gastronômico aberto, ideal para happy hour e grupos.</p>
                         </div>
 
-                        <!-- Mapa da Unidade SOUQ -->
                         <div class="mapa-container">
                             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3602.502054226926!2d-49.30535122482747!3d-25.45490597754589!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dce2ee1b410ca9%3A0x493b89f89475e257!2sBatatiba%20Souq!5e0!3m2!1spt-BR!2sbr!4v1787085110261!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
                         </div>
@@ -412,7 +418,6 @@
        target="_blank" 
        rel="noopener noreferrer"
        aria-label="Fazer pedido pelo WhatsApp">
-        <!-- Você pode colocar uma imagem do ícone do WhatsApp ou um texto aqui -->
         <img src="img/whatssap.png" alt="WhatsApp">
     </a>
 
@@ -425,11 +430,9 @@
         <span class="texto-btn"> Nos Avalie</span>
     </a>
 
-    <!-- RODAPÉ DO SITE -->
     <footer class="rodape-site">
         <div class="container-rodape">
             
-            <!-- Coluna 1: Marca & Sobre -->
             <div class="coluna-rodape sobre-marca">
                 <h3 class="logo-rodape">Batatiba<span>.</span></h3>
                 <p>A original Torre de Batata 100% sem glúten. Sabor, segurança e crocância em cada fatia.</p>
@@ -440,7 +443,6 @@
                 </div>
             </div>
 
-            <!-- Coluna 2: Links Rápidos de Navegação -->
             <div class="coluna-rodape">
                 <h4>Navegação</h4>
                 <ul class="links-rodape">
@@ -454,7 +456,6 @@
                 </ul>
             </div>
 
-            <!-- Coluna 3: Unidades & Atendimento -->
             <div class="coluna-rodape">
                 <h4>Unidades</h4>
                 <p><strong>Água Verde:</strong> Atendimento físico e delivery</p>
@@ -464,13 +465,11 @@
 
         </div>
 
-        <!-- Linha de Direitos Autorais / Assinatura -->
         <div class="rodape-direitos">
-            <p>&copy; 2026 Batatiba - Todos os direitos reservados.</p>
-            <p class="creditos-dev">Feito com ❤️ por Arthur Fragoso da Silva,  Henrique Cardoso Weighert e Gabriel Dacol</p>
+            <p>© 2026 Batatiba - Todos os direitos reservados.</p>
+            <p class="creditos-dev">Feito com ❤️ por Arthur Fragoso da Silva, Henrique Cardoso Weighert e Gabriel Dacol</p>
         </div>
     </footer>
-
 
     <script src="script.js"></script>
 </body>
