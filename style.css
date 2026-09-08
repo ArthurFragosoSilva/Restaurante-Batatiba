@@ -1317,6 +1317,7 @@ main {
     }
 }
 
+<<<<<<< HEAD
 /* ===== TELA DE PERFIL ===== */
 .profile-avatar-container {
   display: flex;
@@ -1377,3 +1378,5 @@ main {
   background: var(--cor-principal);
   color: var(--cor-texto-claro);
 }
+=======
+>>>>>>> origin/Melhorar-Cardapio
