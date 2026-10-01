@@ -19,6 +19,8 @@ const formProfile = document.getElementById('formProfile');
 const inputAvatar = document.getElementById('inputAvatar');
 const avatarImage = document.getElementById('avatarImage');
 const btnLogout = document.getElementById('btnLogout');
+const linkPainelAdmin = document.getElementById('linkPainelAdmin');
+const profRoleBadge = document.getElementById('profRoleBadge');
 
 const allScreens = [screenChoice, screenLogin, screenRegister, screenProfile];
 
@@ -68,6 +70,25 @@ function populateProfile(user){
   if (avatarImage) avatarImage.src = user.avatar || 'https://via.placeholder.com/100';
 
   currentUserOriginalPhone = (user.phone || '').replace(/\D/g, '');
+
+  // Badge com o cargo/função do usuário
+  if (profRoleBadge) {
+    const info = typeof batatibaRoleInfo === 'function' ? batatibaRoleInfo(user.role) : null;
+    if (info) {
+      profRoleBadge.textContent = info.label;
+      profRoleBadge.classList.toggle('badge-admin', user.role === 'admin');
+      profRoleBadge.classList.toggle('badge-funcionario', user.role === 'funcionario');
+      profRoleBadge.classList.remove('hidden');
+    } else {
+      profRoleBadge.classList.add('hidden');
+    }
+  }
+
+  // Link para o Painel Administrativo, visível apenas para quem tem permissão
+  if (linkPainelAdmin) {
+    const podeAcessar = typeof batatibaPodeAcessarPainel === 'function' && batatibaPodeAcessarPainel(user);
+    linkPainelAdmin.classList.toggle('hidden', !podeAcessar);
+  }
 }
 
 // ===== ABRIR / FECHAR MODAL =====
@@ -239,7 +260,8 @@ if (formRegister) {
       email: email.value.trim(),
       phone: phone.value.trim(),
       password: password.value,
-      avatar: ''
+      avatar: '',
+      role: typeof BATATIBA_ROLE_PADRAO !== 'undefined' ? BATATIBA_ROLE_PADRAO : 'cliente'
     };
 
     users.push(newUser);

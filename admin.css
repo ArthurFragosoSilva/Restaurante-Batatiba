@@ -1,0 +1,255 @@
+/* ===== Painel Administrativo (admin.html) ===== */
+
+.container-admin {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 50px 20px 80px;
+}
+
+.admin-sem-acesso {
+    max-width: 520px;
+    margin: 60px auto;
+    text-align: center;
+    background-color: var(--cor-fundo-cartao);
+    border-radius: 16px;
+    box-shadow: var(--sombra-padrao);
+    padding: 40px 30px;
+}
+
+.admin-sem-acesso h2 {
+    color: var(--cor-principal);
+    margin-bottom: 12px;
+}
+
+.admin-sem-acesso p {
+    color: var(--cor-texto-medio);
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+
+.admin-topo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 30px;
+}
+
+.admin-topo h1 {
+    color: var(--cor-principal);
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.admin-subtitulo {
+    color: var(--cor-texto-medio);
+    margin-top: 4px;
+}
+
+.admin-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 26px;
+    flex-wrap: wrap;
+}
+
+.admin-tab-btn {
+    background-color: var(--cor-fundo-cartao);
+    border: 2px solid rgba(17,17,17,0.1);
+    color: var(--cor-texto-medio);
+    padding: 12px 22px;
+    border-radius: 30px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.admin-tab-btn.active {
+    background-color: var(--cor-principal);
+    border-color: var(--cor-principal);
+    color: var(--cor-texto-claro);
+}
+
+.admin-tab-painel.hidden {
+    display: none;
+}
+
+.admin-card {
+    background-color: var(--cor-fundo-cartao);
+    border-radius: 16px;
+    box-shadow: var(--sombra-padrao);
+    padding: 28px;
+    margin-bottom: 26px;
+}
+
+.admin-card h2 {
+    color: var(--cor-principal);
+    font-size: 20px;
+    margin-bottom: 6px;
+}
+
+.admin-card-sub {
+    color: var(--cor-texto-medio);
+    font-size: 13.5px;
+    margin-bottom: 20px;
+}
+
+.admin-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.admin-form .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.admin-form .field-full {
+    grid-column: 1 / -1;
+}
+
+.admin-form label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--cor-texto-medio);
+}
+
+.admin-form input,
+.admin-form select {
+    padding: 11px 13px;
+    border-radius: 8px;
+    border: 1px solid rgba(17,17,17,0.15);
+    background-color: var(--cor-fundo-pagina);
+    color: var(--cor-texto-escuro);
+    font-size: 14px;
+}
+
+.admin-form input:focus,
+.admin-form select:focus {
+    outline: none;
+    border-color: var(--cor-destaque);
+}
+
+.preview-imagem-item {
+    margin-top: 10px;
+    width: 100%;
+    max-width: 160px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid rgba(17,17,17,0.15);
+}
+
+.admin-form input.invalid {
+    border-color: var(--cor-principal);
+}
+
+.admin-table-wrap {
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 560px;
+}
+
+.admin-table th {
+    text-align: left;
+    font-size: 12.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--cor-texto-medio);
+    padding: 10px 12px;
+    border-bottom: 2px solid var(--cor-fundo-pagina);
+}
+
+.admin-table td {
+    padding: 12px;
+    border-bottom: 1px solid var(--cor-fundo-pagina);
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.admin-table select {
+    padding: 7px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(17,17,17,0.15);
+    background-color: var(--cor-fundo-pagina);
+    font-size: 13px;
+}
+
+.admin-table input.input-preco-inline {
+    width: 100px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(17,17,17,0.15);
+    background-color: var(--cor-fundo-pagina);
+    font-size: 13px;
+}
+
+.admin-table .linha-acoes {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.badge-voce {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--cor-principal);
+    background: rgba(198,16,16,0.1);
+    padding: 2px 8px;
+    border-radius: 20px;
+    vertical-align: middle;
+}
+
+.btn-tabela-salvar,
+.btn-tabela-remover,
+.btn-tabela-editar {
+    border: none;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.btn-tabela-salvar,
+.btn-tabela-editar {
+    background-color: var(--cor-destaque);
+    color: var(--cor-texto-escuro);
+}
+
+.btn-tabela-remover {
+    background-color: var(--cor-principal);
+    color: var(--cor-texto-claro);
+}
+
+.btn-tabela-salvar:hover,
+.btn-tabela-editar:hover,
+.btn-tabela-remover:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+}
+
+.btn-tabela-remover:disabled,
+.admin-table select:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+}
+
+@media (max-width: 640px) {
+    .admin-topo {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

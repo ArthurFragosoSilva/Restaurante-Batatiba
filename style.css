@@ -180,6 +180,7 @@ nav a:focus-visible{
 .modal-close:hover{ color: var(--cor-principal); }
 
 .modal-screen.hidden{ display:none; }
+.hidden{ display:none !important; }
 
 .back-btn{
   background:none;
@@ -215,6 +216,61 @@ nav a:focus-visible{
   display:flex;
   flex-direction:column;
   gap: 14px;
+}
+
+/* ===== CARGO/FUNÇÃO E PAINEL ADMIN (Meu Perfil) ===== */
+.role-badge{
+  display: block;
+  width: fit-content;
+  margin: 0 auto 18px;
+  padding: 5px 14px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  background: var(--cor-fundo-pagina);
+  color: var(--cor-texto-medio);
+  border: 1px solid rgba(17,17,17,0.12);
+}
+
+.role-badge.badge-admin{
+  background: rgba(198,16,16,0.1);
+  color: var(--cor-principal);
+  border-color: var(--cor-principal);
+}
+
+.role-badge.badge-funcionario{
+  background: rgba(255,202,40,0.18);
+  color: #7a5b00;
+  border-color: var(--cor-destaque);
+}
+
+.link-painel-admin{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 2px solid var(--cor-principal);
+  background: var(--cor-principal);
+  color: var(--cor-texto-claro);
+  font-family: var(--fonte-principal);
+  font-size: 14.5px;
+  font-weight: 700;
+  text-decoration: none;
+  text-align: center;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.link-painel-admin:hover{
+  background: var(--cor-destaque);
+  border-color: var(--cor-destaque);
+  color: var(--cor-texto-escuro);
+  transform: translateY(-2px);
 }
 
 .option-btn{
