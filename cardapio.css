@@ -1380,3 +1380,198 @@ main {
     }
 
 }
+
+/* ==========================================
+   ADMINISTRAÇÃO DO CARDÁPIO (admin / funcionário)
+========================================== */
+
+.hidden {
+    display: none !important;
+}
+
+.barra-admin-cardapio {
+    max-width: 1200px;
+    margin: 0 auto 25px;
+    background-color: var(--cor-texto-escuro);
+    color: var(--cor-texto-claro);
+    border-radius: 14px;
+    padding: 16px 22px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.barra-admin-texto {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.barra-admin-texto span {
+    color: var(--cor-destaque);
+    font-weight: 800;
+}
+
+.barra-admin-acoes {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn-admin-primario,
+.btn-admin-secundario {
+    border: none;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-family: var(--fonte-principal);
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.btn-admin-primario {
+    background-color: var(--cor-destaque);
+    color: var(--cor-texto-escuro);
+}
+
+.btn-admin-primario:hover {
+    background-color: var(--cor-destaque-escuro);
+    transform: translateY(-2px);
+}
+
+.btn-admin-secundario {
+    background-color: transparent;
+    color: var(--cor-texto-claro);
+    border: 2px solid rgba(255,255,255,0.4);
+}
+
+.btn-admin-secundario:hover {
+    border-color: var(--cor-destaque);
+    color: var(--cor-destaque);
+    transform: translateY(-2px);
+}
+
+.form-item-cardapio {
+    max-width: 1200px;
+    margin: 0 auto 30px;
+    background-color: var(--cor-fundo-cartao);
+    border: 2px solid var(--cor-destaque);
+    border-radius: 16px;
+    padding: 26px;
+    box-shadow: var(--sombra-padrao);
+}
+
+.form-item-cardapio h3 {
+    color: var(--cor-principal);
+    margin-bottom: 18px;
+    font-size: 20px;
+}
+
+.form-item-cardapio .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.form-item-cardapio .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-item-cardapio .field-full {
+    grid-column: 1 / -1;
+}
+
+.form-item-cardapio label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--cor-texto-medio);
+}
+
+.form-item-cardapio input,
+.form-item-cardapio select {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(17,17,17,0.15);
+    font-size: 14px;
+    background-color: var(--cor-fundo-pagina);
+    color: var(--cor-texto-escuro);
+}
+
+.form-item-cardapio input:focus,
+.form-item-cardapio select:focus {
+    outline: none;
+    border-color: var(--cor-destaque);
+}
+
+.preview-imagem-item {
+    margin-top: 10px;
+    width: 100%;
+    max-width: 160px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid rgba(17,17,17,0.15);
+}
+
+.form-item-acoes {
+    display: flex;
+    gap: 12px;
+}
+
+.form-item-cardapio .btn-admin-secundario {
+    color: var(--cor-texto-escuro);
+    border-color: rgba(17,17,17,0.25);
+}
+
+.item-admin-acoes {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn-item-editar,
+.btn-item-remover {
+    border: none;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-family: var(--fonte-principal);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.btn-item-editar {
+    background-color: var(--cor-destaque);
+    color: var(--cor-texto-escuro);
+}
+
+.btn-item-remover {
+    background-color: var(--cor-texto-escuro);
+    color: var(--cor-texto-claro);
+}
+
+.btn-item-editar:hover,
+.btn-item-remover:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+}
+
+.item-cardapio {
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .barra-admin-cardapio {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo | Batatiba</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="cardapio.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="cabecalho">
+        <div class="logo">
+            <a href="index.html" class="logo-link">
+                <img src="img/logo_Batatibasemfundo.png" alt="Logo Batatiba">
+            </a>
+        </div>
+        <nav class="categoria">
+            <a href="index.html">Início</a>
+            <a href="cardapio.html">Cardápio</a>
+            <a href="index.html">Minha Conta</a>
+        </nav>
+    </header>
+
+    <main class="container-admin">
+
+        <!-- Mensagem exibida se o usuário não tiver permissão de acesso -->
+        <div id="admin-sem-acesso" class="admin-sem-acesso hidden">
+            <h2>Acesso restrito</h2>
+            <p>Você precisa estar logado com uma conta de <strong>Administrador</strong> ou <strong>Funcionário</strong> para acessar esta página.</p>
+            <a href="index.html" class="btn-admin-primario">Voltar para o início e entrar</a>
+        </div>
+
+        <div id="admin-conteudo" class="hidden">
+            <div class="admin-topo">
+                <div>
+                    <h1>Painel Administrativo</h1>
+                    <p id="admin-boas-vindas" class="admin-subtitulo"></p>
+                </div>
+                <span id="admin-cargo-badge" class="role-badge badge-admin"></span>
+            </div>
+
+            <!-- ABAS -->
+            <div class="admin-tabs">
+                <button type="button" class="admin-tab-btn active" data-tab="usuarios">👥 Usuários &amp; Cargos</button>
+                <button type="button" class="admin-tab-btn" data-tab="cardapio">🍟 Cardápio &amp; Preços</button>
+            </div>
+
+            <!-- ===================== ABA USUÁRIOS ===================== -->
+            <section id="tab-usuarios" class="admin-tab-painel">
+
+                <div class="admin-card">
+                    <h2>Adicionar pessoa</h2>
+                    <p class="admin-card-sub">Crie uma conta diretamente e defina o cargo/função dela. A conta é identificada pelo nome completo e telefone.</p>
+
+                    <form id="formNovoUsuario" class="admin-form">
+                        <div class="admin-form-grid">
+                            <div class="field">
+                                <label for="novoNome">Nome completo</label>
+                                <input type="text" id="novoNome" required>
+                                <span class="error-msg" data-error-for="novoNome"></span>
+                            </div>
+                            <div class="field">
+                                <label for="novoTelefone">Telefone</label>
+                                <input type="tel" id="novoTelefone" placeholder="(00) 00000-0000" required>
+                                <span class="error-msg" data-error-for="novoTelefone"></span>
+                            </div>
+                            <div class="field">
+                                <label for="novoEmail">E-mail</label>
+                                <input type="email" id="novoEmail" placeholder="opcional@exemplo.com">
+                                <span class="error-msg" data-error-for="novoEmail"></span>
+                            </div>
+                            <div class="field">
+                                <label for="novoCargo">Cargo / Função</label>
+                                <select id="novoCargo" required></select>
+                            </div>
+                            <div class="field">
+                                <label for="novaSenha">Senha temporária</label>
+                                <input type="text" id="novaSenha" placeholder="mín. 6 caracteres" required>
+                                <span class="error-msg" data-error-for="novaSenha"></span>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-admin-primario">+ Adicionar pessoa</button>
+                    </form>
+                </div>
+
+                <div class="admin-card">
+                    <h2>Contas cadastradas</h2>
+                    <p class="admin-card-sub">Altere o cargo/função de qualquer conta ou remova o acesso quando necessário.</p>
+                    <div class="admin-table-wrap">
+                        <table class="admin-table" id="tabelaUsuarios">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Telefone</th>
+                                    <th>E-mail</th>
+                                    <th>Cargo / Função</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===================== ABA CARDÁPIO ===================== -->
+            <section id="tab-cardapio" class="admin-tab-painel hidden">
+
+                <div class="admin-card">
+                    <h2 id="tituloFormItem">Adicionar item ao cardápio</h2>
+                    <form id="formItemAdmin" class="admin-form">
+                        <input type="hidden" id="adminItemId">
+                        <div class="admin-form-grid">
+                            <div class="field">
+                                <label for="adminItemNome">Nome do item</label>
+                                <input type="text" id="adminItemNome" required>
+                            </div>
+                            <div class="field">
+                                <label for="adminItemCategoria">Categoria</label>
+                                <select id="adminItemCategoria" required>
+                                    <option value="torres">Torres de Batata</option>
+                                    <option value="porcoes">Porções</option>
+                                    <option value="bebidas">Bebidas</option>
+                                </select>
+                            </div>
+                            <div class="field">
+                                <label for="adminItemPreco">Preço (R$)</label>
+                                <input type="number" id="adminItemPreco" min="0" step="0.01" required>
+                            </div>
+                <div class="field">
+                    <label for="adminItemImagemArquivo">Imagem do item (PNG ou JPEG)</label>
+                    <input type="file" id="adminItemImagemArquivo" accept="image/png, image/jpeg">
+                    <input type="hidden" id="adminItemImagem">
+                    <img id="adminItemImagemPreview" class="preview-imagem-item hidden" alt="Pré-visualização da imagem">
+                </div>
+                            <div class="field field-full">
+                                <label for="adminItemDescricao">Descrição</label>
+                                <input type="text" id="adminItemDescricao" required>
+                            </div>
+                        </div>
+                        <div class="form-item-acoes">
+                            <button type="submit" class="btn-admin-primario">Salvar item</button>
+                            <button type="button" id="btnCancelarItemAdmin" class="btn-admin-secundario hidden">Cancelar edição</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="admin-card">
+                    <h2>Itens do cardápio</h2>
+                    <p class="admin-card-sub">Altere preços rapidamente ou edite/remova qualquer item.</p>
+                    <div class="admin-table-wrap">
+                        <table class="admin-table" id="tabelaCardapio">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Categoria</th>
+                                    <th>Preço</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="auth-shared.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
