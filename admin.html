@@ -89,8 +89,20 @@
                 </div>
 
                 <div class="admin-card">
-                    <h2>Contas cadastradas</h2>
-                    <p class="admin-card-sub">Altere o cargo/função de qualquer conta ou remova o acesso quando necessário.</p>
+                    <div class="admin-card-cabecalho">
+                        <div>
+                            <h2>Contas cadastradas</h2>
+                            <p class="admin-card-sub">Altere o cargo/função de qualquer conta ou remova o acesso quando necessário.</p>
+                        </div>
+                        <div class="admin-export-grupo">
+                            <button type="button" id="btnExportarUsuarios" class="btn-exportar-txt hidden">
+                                📄 Exportar usuários (.txt)
+                            </button>
+                            <button type="button" id="btnExportarUsuariosCsv" class="btn-exportar-txt btn-exportar-csv hidden">
+                                📊 Exportar usuários (.csv)
+                            </button>
+                        </div>
+                    </div>
                     <div class="admin-table-wrap">
                         <table class="admin-table" id="tabelaUsuarios">
                             <thead>
@@ -132,12 +144,12 @@
                                 <label for="adminItemPreco">Preço (R$)</label>
                                 <input type="number" id="adminItemPreco" min="0" step="0.01" required>
                             </div>
-                <div class="field">
-                    <label for="adminItemImagemArquivo">Imagem do item (PNG ou JPEG)</label>
-                    <input type="file" id="adminItemImagemArquivo" accept="image/png, image/jpeg">
-                    <input type="hidden" id="adminItemImagem">
-                    <img id="adminItemImagemPreview" class="preview-imagem-item hidden" alt="Pré-visualização da imagem">
-                </div>
+                            <div class="field">
+                                <label for="adminItemImagemArquivo">Imagem do item (PNG ou JPEG)</label>
+                                <input type="file" id="adminItemImagemArquivo" accept="image/png, image/jpeg">
+                                <input type="hidden" id="adminItemImagem">
+                                <img id="adminItemImagemPreview" class="preview-imagem-item hidden" alt="Pré-visualização da imagem">
+                            </div>
                             <div class="field field-full">
                                 <label for="adminItemDescricao">Descrição</label>
                                 <input type="text" id="adminItemDescricao" required>
@@ -151,8 +163,20 @@
                 </div>
 
                 <div class="admin-card">
-                    <h2>Itens do cardápio</h2>
-                    <p class="admin-card-sub">Altere preços rapidamente ou edite/remova qualquer item.</p>
+                    <div class="admin-card-cabecalho">
+                        <div>
+                            <h2>Itens do cardápio</h2>
+                            <p class="admin-card-sub">Altere preços rapidamente ou edite/remova qualquer item.</p>
+                        </div>
+                        <div class="admin-export-grupo">
+                            <button type="button" id="btnExportarCardapio" class="btn-exportar-txt hidden">
+                                📄 Exportar cardápio (.txt)
+                            </button>
+                            <button type="button" id="btnExportarCardapioCsv" class="btn-exportar-txt btn-exportar-csv hidden">
+                                📊 Exportar cardápio (.csv)
+                            </button>
+                        </div>
+                    </div>
                     <div class="admin-table-wrap">
                         <table class="admin-table" id="tabelaCardapio">
                             <thead>

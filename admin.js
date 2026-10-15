@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (conteudo) conteudo.classList.remove('hidden');
 
     const podeGerenciarUsuarios = batatibaPodeGerenciarUsuarios(usuarioLogado);
+    const ehAdministrador = usuarioLogado && usuarioLogado.role === 'admin';
 
     // ---------- CABEÇALHO ----------
     const boasVindas = document.getElementById('admin-boas-vindas');
@@ -30,6 +31,180 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Telefone (só dígitos) da conta logada, usado para identificação estável
     const telefoneUsuarioLogado = (usuarioLogado.phone || '').replace(/\D/g, '');
+
+    const rotulosCategoria = { torres: 'Torres de Batata', porcoes: 'Porções', bebidas: 'Bebidas' };
+
+    /* =====================================================================
+       EXPORTAÇÃO (TXT e CSV) - somente Administrador
+       ===================================================================== */
+
+    const btnExportarUsuarios = document.getElementById('btnExportarUsuarios');
+    const btnExportarUsuariosCsv = document.getElementById('btnExportarUsuariosCsv');
+    const btnExportarCardapio = document.getElementById('btnExportarCardapio');
+    const btnExportarCardapioCsv = document.getElementById('btnExportarCardapioCsv');
+
+    // Baixa qualquer conteúdo de texto como arquivo
+    function baixarArquivo(nomeArquivo, conteudoArquivo, tipoMime) {
+        const blob = new Blob([conteudoArquivo], { type: tipoMime });
+        const url = URL.createObjectURL(blob);
+
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = nomeArquivo;
+
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        URL.revokeObjectURL(url);
+    }
+
+    function baixarTxt(nomeArquivo, texto) {
+        baixarArquivo(nomeArquivo, texto, 'text/plain;charset=utf-8');
+    }
+
+    // CSV: separador ";" (padrão do Excel em português) e BOM UTF-8
+    // para que acentos (ç, ã, é...) abram corretamente no Excel.
+    function csvCelula(valor) {
+        let texto = valor === null || valor === undefined ? '' : String(valor);
+
+        // Evita que o Excel interprete o texto como fórmula (=, +, -, @)
+        if (/^[=+\-@\t\r]/.test(texto)) {
+            texto = "'" + texto;
+        }
+
+        return '"' + texto.replace(/"/g, '""') + '"';
+    }
+
+    function baixarCsv(nomeArquivo, cabecalho, linhas) {
+        const todas = [cabecalho, ...linhas];
+        const csv = todas
+            .map(linha => linha.map(csvCelula).join(';'))
+            .join('\r\n');
+
+        baixarArquivo(nomeArquivo, '\uFEFF' + csv, 'text/csv;charset=utf-8');
+    }
+
+    function nomeDoCargo(role) {
+        return typeof batatibaRoleInfo === 'function' ? batatibaRoleInfo(role).label : role;
+    }
+
+    function precoFormatado(preco) {
+        return typeof batatibaFormatarPreco === 'function'
+            ? batatibaFormatarPreco(preco)
+            : (preco || '-');
+    }
+
+    // ---------- USUÁRIOS ----------
+    function exportarUsuariosTxt() {
+        if (!ehAdministrador) {
+            alert('Apenas administradores podem exportar os usuários.');
+            return;
+        }
+
+        const usuarios = batatibaGetUsers();
+
+        let texto = '';
+        texto += 'BATATIBA - USUÁRIOS CADASTRADOS\n';
+        texto += '========================================\n';
+        texto += `Total de usuários: ${usuarios.length}\n`;
+        texto += `Data da exportação: ${new Date().toLocaleString('pt-BR')}\n`;
+        texto += '========================================\n\n';
+
+        usuarios.forEach((usuario, index) => {
+            texto += `USUÁRIO ${index + 1}\n`;
+            texto += `Nome: ${usuario.name || '-'}\n`;
+            texto += `Telefone: ${usuario.phone || '-'}\n`;
+            texto += `E-mail: ${usuario.email || '-'}\n`;
+            texto += `Cargo: ${nomeDoCargo(usuario.role) || '-'}\n`;
+            texto += '----------------------------------------\n';
+        });
+
+        baixarTxt('batatiba-usuarios.txt', texto);
+    }
+
+    function exportarUsuariosCsv() {
+        if (!ehAdministrador) {
+            alert('Apenas administradores podem exportar os usuários.');
+            return;
+        }
+
+        const usuarios = batatibaGetUsers();
+
+        const cabecalho = ['Nome', 'Telefone', 'E-mail', 'Cargo'];
+        const linhas = usuarios.map(usuario => [
+            usuario.name || '',
+            usuario.phone || '',
+            usuario.email || '',
+            nomeDoCargo(usuario.role) || ''
+        ]);
+
+        baixarCsv('batatiba-usuarios.csv', cabecalho, linhas);
+    }
+
+    // ---------- CARDÁPIO ----------
+    function exportarCardapioTxt() {
+        if (!ehAdministrador) {
+            alert('Apenas administradores podem exportar o cardápio.');
+            return;
+        }
+
+        const cardapio = batatibaGetMenu();
+
+        let texto = '';
+        texto += 'BATATIBA - CARDÁPIO\n';
+        texto += '========================================\n';
+        texto += `Total de itens: ${cardapio.length}\n`;
+        texto += `Data da exportação: ${new Date().toLocaleString('pt-BR')}\n`;
+        texto += '========================================\n\n';
+
+        cardapio.forEach((item, index) => {
+            texto += `ITEM ${index + 1}\n`;
+            texto += `Nome: ${item.nome || '-'}\n`;
+            texto += `Categoria: ${rotulosCategoria[item.categoria] || item.categoria || '-'}\n`;
+            texto += `Preço: ${precoFormatado(item.preco)}\n`;
+            texto += `Descrição: ${item.descricao || '-'}\n`;
+            texto += '----------------------------------------\n';
+        });
+
+        baixarTxt('batatiba-cardapio.txt', texto);
+    }
+
+    function exportarCardapioCsv() {
+        if (!ehAdministrador) {
+            alert('Apenas administradores podem exportar o cardápio.');
+            return;
+        }
+
+        const cardapio = batatibaGetMenu();
+
+        // Preço como número com vírgula (ex.: 12,50) para o Excel reconhecer como valor.
+        // A imagem não é exportada (é um arquivo grande embutido).
+        const cabecalho = ['ID', 'Nome', 'Categoria', 'Preço (R$)', 'Descrição'];
+        const linhas = cardapio.map(item => [
+            item.id || '',
+            item.nome || '',
+            rotulosCategoria[item.categoria] || item.categoria || '',
+            Number(item.preco || 0).toFixed(2).replace('.', ','),
+            item.descricao || ''
+        ]);
+
+        baixarCsv('batatiba-cardapio.csv', cabecalho, linhas);
+    }
+
+    // Mostra os botões somente para o Administrador
+    if (ehAdministrador) {
+        [
+            [btnExportarUsuarios, exportarUsuariosTxt],
+            [btnExportarUsuariosCsv, exportarUsuariosCsv],
+            [btnExportarCardapio, exportarCardapioTxt],
+            [btnExportarCardapioCsv, exportarCardapioCsv]
+        ].forEach(([botao, acao]) => {
+            if (!botao) return;
+            botao.classList.remove('hidden');
+            botao.addEventListener('click', acao);
+        });
+    }
 
     // ---------- ABAS ----------
     const tabButtons = document.querySelectorAll('.admin-tab-btn');
@@ -294,8 +469,6 @@ document.addEventListener('DOMContentLoaded', () => {
             leitor.readAsDataURL(arquivo);
         });
     }
-
-    const rotulosCategoria = { torres: 'Torres de Batata', porcoes: 'Porções', bebidas: 'Bebidas' };
 
     function limparFormItem() {
         if (!formItemAdmin) return;
