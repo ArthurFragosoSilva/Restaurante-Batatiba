@@ -94,15 +94,29 @@
                             <h2>Contas cadastradas</h2>
                             <p class="admin-card-sub">Altere o cargo/função de qualquer conta ou remova o acesso quando necessário.</p>
                         </div>
-                        <div class="admin-export-grupo">
+
+                        <div class="admin-acoes-csv">
                             <button type="button" id="btnExportarUsuarios" class="btn-exportar-txt hidden">
                                 📄 Exportar usuários (.txt)
                             </button>
-                            <button type="button" id="btnExportarUsuariosCsv" class="btn-exportar-txt btn-exportar-csv hidden">
+
+                            <button type="button" id="btnExportarUsuariosCSV" class="btn-exportar-txt hidden">
                                 📊 Exportar usuários (.csv)
                             </button>
+
+                            <button type="button" id="btnImportarUsuariosTXT" class="btn-exportar-txt hidden">
+                                📥 Importar usuários (.txt)
+                            </button>
+
+                            <button type="button" id="btnImportarUsuariosCSV" class="btn-exportar-txt hidden">
+                                📥 Importar usuários (.csv)
+                            </button>
+
+                            <input type="file" id="inputImportarUsuariosTXT" accept=".txt,text/plain" hidden>
+                            <input type="file" id="inputImportarUsuariosCSV" accept=".csv,text/csv" hidden>
                         </div>
                     </div>
+
                     <div class="admin-table-wrap">
                         <table class="admin-table" id="tabelaUsuarios">
                             <thead>
@@ -168,15 +182,29 @@
                             <h2>Itens do cardápio</h2>
                             <p class="admin-card-sub">Altere preços rapidamente ou edite/remova qualquer item.</p>
                         </div>
-                        <div class="admin-export-grupo">
+
+                        <div class="admin-acoes-csv">
                             <button type="button" id="btnExportarCardapio" class="btn-exportar-txt hidden">
                                 📄 Exportar cardápio (.txt)
                             </button>
-                            <button type="button" id="btnExportarCardapioCsv" class="btn-exportar-txt btn-exportar-csv hidden">
+
+                            <button type="button" id="btnExportarCardapioCSV" class="btn-exportar-txt hidden">
                                 📊 Exportar cardápio (.csv)
                             </button>
+
+                            <button type="button" id="btnImportarCardapioTXT" class="btn-exportar-txt hidden">
+                                📥 Importar cardápio (.txt)
+                            </button>
+
+                            <button type="button" id="btnImportarCardapioCSV" class="btn-exportar-txt hidden">
+                                📥 Importar cardápio (.csv)
+                            </button>
+
+                            <input type="file" id="inputImportarCardapioTXT" accept=".txt,text/plain" hidden>
+                            <input type="file" id="inputImportarCardapioCSV" accept=".csv,text/csv" hidden>
                         </div>
                     </div>
+
                     <div class="admin-table-wrap">
                         <table class="admin-table" id="tabelaCardapio">
                             <thead>

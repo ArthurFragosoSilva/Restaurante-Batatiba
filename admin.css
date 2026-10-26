@@ -255,7 +255,7 @@
 }
 
 
-/* ===== Exportação TXT / CSV (somente Administrador) ===== */
+/* ===== Exportação e importação (TXT e CSV) ===== */
 
 .admin-card-cabecalho {
     display: flex;
@@ -269,11 +269,14 @@
     margin-bottom: 0;
 }
 
-.admin-export-grupo {
+/* Botões de exportação e importação */
+
+.admin-acoes-csv {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    align-items: center;
     justify-content: flex-end;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
 .btn-exportar-txt {
@@ -289,13 +292,6 @@
     transition: transform 0.15s ease, filter 0.15s ease;
 }
 
-/* Botão CSV: mesma base do TXT, com borda para diferenciar */
-.btn-exportar-csv {
-    background-color: var(--cor-fundo-cartao);
-    border: 2px solid var(--cor-destaque);
-    padding: 8px 14px;
-}
-
 .btn-exportar-txt:hover {
     transform: translateY(-2px);
     filter: brightness(1.05);
@@ -307,9 +303,10 @@
         align-items: stretch;
     }
 
-    .admin-export-grupo {
+    .admin-acoes-csv {
         flex-direction: column;
-        justify-content: stretch;
+        align-items: stretch;
+        width: 100%;
     }
 
     .btn-exportar-txt {
