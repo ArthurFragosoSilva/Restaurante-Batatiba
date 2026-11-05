@@ -1575,3 +1575,133 @@ main {
         align-items: flex-start;
     }
 }
+
+
+
+/* ===== Consulta do cardápio (busca, preço, ordenação, contagem) ===== */
+
+.consulta-cardapio {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 14px;
+    align-items: end;
+    background-color: var(--cor-fundo-cartao);
+    border-radius: 16px;
+    box-shadow: var(--sombra-padrao);
+    padding: 18px 20px;
+    margin-bottom: 14px;
+}
+
+.consulta-busca {
+    grid-column: span 2;
+}
+
+.consulta-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.consulta-campo label {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--cor-texto-medio);
+}
+
+.consulta-campo input,
+.consulta-campo select {
+    width: 100%;
+    padding: 11px 13px;
+    border-radius: 10px;
+    border: 1px solid rgba(17,17,17,0.15);
+    background-color: var(--cor-fundo-pagina);
+    color: var(--cor-texto-escuro);
+    font-size: 14px;
+    font-family: inherit;
+}
+
+.consulta-campo input:focus,
+.consulta-campo select:focus {
+    outline: none;
+    border-color: var(--cor-destaque);
+    box-shadow: 0 0 0 3px rgba(255, 202, 40, 0.3);
+}
+
+.btn-consulta-limpar {
+    border: 2px solid var(--cor-principal);
+    background-color: transparent;
+    color: var(--cor-principal);
+    border-radius: 24px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-consulta-limpar:hover {
+    background-color: var(--cor-principal);
+    color: var(--cor-texto-claro);
+}
+
+.consulta-resumo {
+    text-align: center;
+    color: var(--cor-texto-medio);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    min-height: 20px;
+}
+
+/* Contagem dentro dos botões de categoria */
+.contagem-filtro {
+    display: inline-block;
+    min-width: 22px;
+    margin-left: 6px;
+    padding: 1px 7px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 800;
+    text-align: center;
+    background-color: rgba(198, 16, 16, 0.12);
+}
+
+.btn-filtro.active .contagem-filtro {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.btn-filtro.zerado:not(.active) {
+    opacity: 0.55;
+}
+
+/* Quando a consulta não encontra nada */
+.consulta-vazio {
+    text-align: center;
+    background-color: var(--cor-fundo-cartao);
+    border-radius: 16px;
+    box-shadow: var(--sombra-padrao);
+    padding: 40px 24px;
+    max-width: 520px;
+    margin: 10px auto 0;
+}
+
+.consulta-vazio-icone {
+    font-size: 42px;
+    margin-bottom: 8px;
+}
+
+.consulta-vazio h3 {
+    color: var(--cor-principal);
+    margin-bottom: 6px;
+}
+
+.consulta-vazio p {
+    color: var(--cor-texto-medio);
+}
+
+@media (max-width: 900px) {
+    .consulta-busca {
+        grid-column: 1 / -1;
+    }
+}

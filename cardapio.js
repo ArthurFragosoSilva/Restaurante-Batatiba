@@ -10,6 +10,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let categoriaAtual = 'todos';
 
+    /* Elementos da consulta (busca, preço, ordenação) */
+    const inputConsultaBusca = document.getElementById('consultaBusca');
+    const inputConsultaPrecoMin = document.getElementById('consultaPrecoMin');
+    const inputConsultaPrecoMax = document.getElementById('consultaPrecoMax');
+    const selectConsultaOrdem = document.getElementById('consultaOrdem');
+    const btnConsultaLimpar = document.getElementById('consultaLimpar');
+    const resumoConsulta = document.getElementById('consultaResumo');
+    const mensagemVazia = document.getElementById('consultaVazio');
+
+    // Guarda o texto original de cada botão de categoria ("Porções", ...)
+    // para poder anexar a contagem de itens ao lado.
+    botoesFiltro.forEach(btn => { btn.dataset.rotulo = btn.textContent.trim(); });
+
     /* Usuário logado / permissões (auth-shared.js) */
     const usuarioLogado = typeof batatibaGetLoggedUser === 'function' ? batatibaGetLoggedUser() : null;
     const podeEditar = typeof batatibaPodeGerenciarCardapio === 'function' && batatibaPodeGerenciarCardapio(usuarioLogado);
@@ -44,24 +57,76 @@ document.addEventListener('DOMContentLoaded', () => {
        RENDERIZAÇÃO DO CARDÁPIO (dados em localStorage)
     ========================================== */
 
+    function lerConsulta() {
+        return {
+            busca: inputConsultaBusca ? inputConsultaBusca.value : '',
+            precoMin: inputConsultaPrecoMin ? inputConsultaPrecoMin.value : '',
+            precoMax: inputConsultaPrecoMax ? inputConsultaPrecoMax.value : '',
+            ordem: selectConsultaOrdem ? selectConsultaOrdem.value : 'padrao',
+            categoria: categoriaAtual
+        };
+    }
+
+    function consultaEstaAtiva() {
+        const f = lerConsulta();
+        return !!(f.busca.trim() || f.precoMin !== '' || f.precoMax !== '' ||
+                  f.ordem !== 'padrao' || f.categoria !== 'todos');
+    }
+
+    // Mostra a contagem de itens em cada botão de categoria e o resumo da consulta
+    function atualizarContagens(resultado) {
+
+        botoesFiltro.forEach(btn => {
+            const categoria = btn.dataset.categoria || 'todos';
+            const quantidade = categoria === 'todos'
+                ? resultado.totalSemCategoria
+                : (resultado.porCategoria[categoria] || 0);
+
+            btn.innerHTML =
+                `${escaparHTML(btn.dataset.rotulo)} <span class="contagem-filtro">${quantidade}</span>`;
+            btn.classList.toggle('zerado', quantidade === 0);
+        });
+
+        if (resumoConsulta) {
+
+            if (resultado.faixaInvalida) {
+                resumoConsulta.textContent = '⚠️ O preço mínimo não pode ser maior que o preço máximo.';
+            } else {
+                const exibidos = resultado.itens.length;
+                const total = resultado.totalGeral;
+
+                let texto = `Exibindo ${exibidos} de ${total} ${total === 1 ? 'item' : 'itens'}`;
+
+                if (exibidos > 0) {
+                    texto += ` · Preço médio: ${formatarPreco(resultado.precoMedio)}`;
+                }
+
+                resumoConsulta.textContent = texto;
+            }
+
+        }
+
+        if (mensagemVazia) {
+            mensagemVazia.classList.toggle('hidden', resultado.itens.length > 0);
+        }
+
+    }
+
     function renderizarCardapio() {
 
         if (!gridCardapio) return;
 
         const menu = typeof batatibaGetMenu === 'function' ? batatibaGetMenu() : [];
 
+        const resultado = batatibaConsultarMenu(menu, lerConsulta());
+
         gridCardapio.innerHTML = '';
 
-        menu.forEach(item => {
-
-            const deveExibir =
-                categoriaAtual === 'todos' ||
-                item.categoria === categoriaAtual;
+        resultado.itens.forEach(item => {
 
             const card = document.createElement('div');
 
-            card.className =
-                'item-cardapio' + (deveExibir ? '' : ' escondido');
+            card.className = 'item-cardapio';
 
             card.setAttribute('data-categoria', item.categoria);
             card.setAttribute('data-id', item.id);
@@ -86,6 +151,44 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
 
             gridCardapio.appendChild(card);
+
+        });
+
+        atualizarContagens(resultado);
+
+    }
+
+
+    /* ==========================================
+       EVENTOS DA CONSULTA
+    ========================================== */
+
+    [inputConsultaBusca, inputConsultaPrecoMin, inputConsultaPrecoMax].forEach(campo => {
+        if (campo) campo.addEventListener('input', renderizarCardapio);
+    });
+
+    if (selectConsultaOrdem) {
+        selectConsultaOrdem.addEventListener('change', renderizarCardapio);
+    }
+
+    if (btnConsultaLimpar) {
+
+        btnConsultaLimpar.addEventListener('click', () => {
+
+            if (inputConsultaBusca) inputConsultaBusca.value = '';
+            if (inputConsultaPrecoMin) inputConsultaPrecoMin.value = '';
+            if (inputConsultaPrecoMax) inputConsultaPrecoMax.value = '';
+            if (selectConsultaOrdem) selectConsultaOrdem.value = 'padrao';
+
+            // Volta também para a categoria "Todos"
+            categoriaAtual = 'todos';
+            botoesFiltro.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.categoria === 'todos');
+            });
+
+            renderizarCardapio();
+
+            if (inputConsultaBusca) inputConsultaBusca.focus();
 
         });
 

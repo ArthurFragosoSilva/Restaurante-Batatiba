@@ -205,6 +205,50 @@
                         </div>
                     </div>
 
+                    <!-- CONSULTA: busca, filtro, ordenação e contagem -->
+                    <form class="consulta-cardapio" id="adminConsulta" role="search" aria-label="Consultar itens do cardápio" onsubmit="return false">
+                        <div class="consulta-campo consulta-busca">
+                            <label for="adminConsultaBusca">🔍 Buscar item</label>
+                            <input type="search" id="adminConsultaBusca" placeholder="Nome, descrição ou categoria..." autocomplete="off">
+                        </div>
+                        <div class="consulta-campo">
+                            <label for="adminConsultaCategoria">Categoria</label>
+                            <select id="adminConsultaCategoria">
+                                <option value="todos">Todas</option>
+                                <option value="torres">Torres de Batata</option>
+                                <option value="porcoes">Porções</option>
+                                <option value="bebidas">Bebidas</option>
+                            </select>
+                        </div>
+                        <div class="consulta-campo">
+                            <label for="adminConsultaPrecoMin">Preço mín. (R$)</label>
+                            <input type="number" id="adminConsultaPrecoMin" min="0" step="0.01" placeholder="0,00">
+                        </div>
+                        <div class="consulta-campo">
+                            <label for="adminConsultaPrecoMax">Preço máx. (R$)</label>
+                            <input type="number" id="adminConsultaPrecoMax" min="0" step="0.01" placeholder="100,00">
+                        </div>
+                        <div class="consulta-campo">
+                            <label for="adminConsultaOrdem">Ordenar por</label>
+                            <select id="adminConsultaOrdem">
+                                <option value="padrao">Ordem cadastrada</option>
+                                <option value="nome-asc">Nome (A–Z)</option>
+                                <option value="nome-desc">Nome (Z–A)</option>
+                                <option value="preco-asc">Menor preço</option>
+                                <option value="preco-desc">Maior preço</option>
+                                <option value="categoria">Categoria</option>
+                            </select>
+                        </div>
+                        <button type="button" id="adminConsultaLimpar" class="btn-consulta-limpar">Limpar consulta</button>
+                    </form>
+
+                    <!-- Contagem de registros por categoria (clique para filtrar) -->
+                    <div class="admin-consulta-chips" id="adminConsultaChips" aria-label="Contagem por categoria"></div>
+
+                    <!-- Resumo e estatísticas dos itens exibidos -->
+                    <p class="consulta-resumo consulta-resumo-admin" id="adminConsultaResumo" aria-live="polite"></p>
+                    <div class="admin-consulta-stats" id="adminConsultaStats"></div>
+
                     <div class="admin-table-wrap">
                         <table class="admin-table" id="tabelaCardapio">
                             <thead>

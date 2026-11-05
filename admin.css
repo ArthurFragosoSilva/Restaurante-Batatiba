@@ -313,3 +313,105 @@
         width: 100%;
     }
 }
+
+
+
+/* ===== Consulta dos itens do cardápio (admin) ===== */
+
+/* Reaproveita o componente .consulta-cardapio (definido em cardapio.css),
+   ajustado para ficar dentro do cartão branco do painel. */
+.admin-card .consulta-cardapio {
+    background-color: var(--cor-fundo-pagina);
+    box-shadow: none;
+    padding: 16px;
+    margin-bottom: 14px;
+}
+
+.admin-card .consulta-campo input,
+.admin-card .consulta-campo select {
+    background-color: var(--cor-fundo-cartao);
+}
+
+.consulta-resumo-admin {
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.admin-consulta-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.chip-consulta {
+    background-color: var(--cor-fundo-cartao);
+    border: 2px solid rgba(17,17,17,0.1);
+    color: var(--cor-texto-medio);
+    border-radius: 30px;
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.chip-consulta b {
+    margin-left: 4px;
+    padding: 1px 7px;
+    border-radius: 20px;
+    font-size: 12px;
+    background-color: rgba(198, 16, 16, 0.1);
+    color: var(--cor-principal);
+}
+
+.chip-consulta:hover {
+    border-color: var(--cor-principal);
+}
+
+.chip-consulta.ativo {
+    background-color: var(--cor-principal);
+    border-color: var(--cor-principal);
+    color: var(--cor-texto-claro);
+}
+
+.chip-consulta.ativo b {
+    background-color: rgba(255, 255, 255, 0.25);
+    color: var(--cor-texto-claro);
+}
+
+.admin-consulta-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.stat-consulta {
+    flex: 1 1 140px;
+    background-color: var(--cor-fundo-pagina);
+    border-radius: 12px;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.stat-consulta span {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--cor-texto-medio);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.stat-consulta strong {
+    font-size: 18px;
+    color: var(--cor-principal);
+}
+
+.admin-table td.linha-vazia {
+    text-align: center;
+    color: var(--cor-texto-medio);
+    padding: 28px 12px;
+}
