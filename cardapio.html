@@ -53,6 +53,35 @@
         <button class="btn-filtro" data-categoria="bebidas">Bebidas</button>
       </div>
 
+        <!-- CONSULTA: busca, faixa de preço e ordenação -->
+        <form class="consulta-cardapio" id="consultaCardapio" role="search" aria-label="Consultar cardápio" onsubmit="return false">
+            <div class="consulta-campo consulta-busca">
+                <label for="consultaBusca">🔍 Buscar</label>
+                <input type="search" id="consultaBusca" placeholder="Ex.: bacon, cheddar, torre, guaraná..." autocomplete="off">
+            </div>
+            <div class="consulta-campo">
+                <label for="consultaPrecoMin">Preço mín. (R$)</label>
+                <input type="number" id="consultaPrecoMin" min="0" step="0.01" placeholder="0,00">
+            </div>
+            <div class="consulta-campo">
+                <label for="consultaPrecoMax">Preço máx. (R$)</label>
+                <input type="number" id="consultaPrecoMax" min="0" step="0.01" placeholder="100,00">
+            </div>
+            <div class="consulta-campo">
+                <label for="consultaOrdem">Ordenar por</label>
+                <select id="consultaOrdem">
+                    <option value="padrao">Ordem do cardápio</option>
+                    <option value="nome-asc">Nome (A–Z)</option>
+                    <option value="nome-desc">Nome (Z–A)</option>
+                    <option value="preco-asc">Menor preço</option>
+                    <option value="preco-desc">Maior preço</option>
+                </select>
+            </div>
+            <button type="button" id="consultaLimpar" class="btn-consulta-limpar">Limpar consulta</button>
+        </form>
+
+        <p class="consulta-resumo" id="consultaResumo" aria-live="polite"></p>
+
         <!-- BARRA DE ADMINISTRAÇÃO DO CARDÁPIO (visível apenas para admin/funcionário) -->
         <div id="barraAdminCardapio" class="barra-admin-cardapio hidden">
             <span class="barra-admin-texto">🔧 Modo de edição do cardápio — <span id="barraAdminCargo"></span></span>
@@ -102,6 +131,13 @@
 
     <!-- GRID DE ITENS DO CARDÁPIO (renderizado dinamicamente via cardapio.js) -->
         <div class="grid-cardapio" id="gridCardapio">
+        </div>
+
+        <!-- Mensagem quando a consulta não encontra nada -->
+        <div class="consulta-vazio hidden" id="consultaVazio">
+            <div class="consulta-vazio-icone">🍟</div>
+            <h3>Nenhum item encontrado</h3>
+            <p>Tente outro termo, ajuste a faixa de preço ou limpe a consulta.</p>
         </div>
     </main>
 <!-- =========================

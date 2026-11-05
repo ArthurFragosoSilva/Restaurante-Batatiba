@@ -195,6 +195,121 @@ function batatibaGerarIdItem(nome) {
   return `${base}-${Date.now().toString(36)}`;
 }
 
+
+/* ---------- CONSULTA DO CARDÁPIO (busca, filtro, ordenação e contagem) ---------- */
+/* Usada tanto pela página do cardápio quanto pelo Painel Administrativo,
+   para que as duas telas sempre consultem os dados do mesmo jeito. */
+const BATATIBA_CATEGORIAS = {
+  torres: 'Torres de Batata',
+  porcoes: 'Porções',
+  bebidas: 'Bebidas'
+};
+
+// Remove acentos e deixa em minúsculas: "Porção" e "porcao" passam a ser iguais.
+function batatibaNormalizarTexto(texto) {
+  return String(texto === null || texto === undefined ? '' : texto)
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
+}
+
+/* filtros = { busca, categoria, precoMin, precoMax, ordem }
+   ordem: 'padrao' | 'nome-asc' | 'nome-desc' | 'preco-asc' | 'preco-desc' | 'categoria'
+
+   Retorna:
+   {
+     itens,          // itens que passam por TODOS os filtros, já ordenados
+     totalGeral,     // total de itens cadastrados (sem filtro nenhum)
+     porCategoria,   // contagem por categoria respeitando busca e preço (mas não a categoria)
+     totalSemCategoria, // soma de porCategoria (usado no botão "Todos")
+     precoMedio, precoMenor, precoMaior, // estatísticas dos itens exibidos
+     faixaInvalida   // true se o preço mínimo for maior que o máximo
+   } */
+function batatibaConsultarMenu(menu, filtros) {
+  const f = filtros || {};
+  const lista = Array.isArray(menu) ? menu : [];
+
+  const termos = batatibaNormalizarTexto(f.busca).split(/\s+/).filter(Boolean);
+
+  const lerNumero = (valor) => {
+    if (valor === '' || valor === null || valor === undefined) return null;
+    const n = Number(String(valor).replace(',', '.'));
+    return Number.isFinite(n) ? n : null;
+  };
+  const min = lerNumero(f.precoMin);
+  const max = lerNumero(f.precoMax);
+  const faixaInvalida = min !== null && max !== null && min > max;
+
+  const categoria = f.categoria || 'todos';
+  const ordem = f.ordem || 'padrao';
+
+  const passaSemCategoria = (item) => {
+    if (faixaInvalida) return false;
+
+    const preco = Number(item.preco) || 0;
+    if (min !== null && preco < min) return false;
+    if (max !== null && preco > max) return false;
+
+    if (termos.length) {
+      const alvo = batatibaNormalizarTexto(
+        `${item.nome} ${item.descricao} ${BATATIBA_CATEGORIAS[item.categoria] || item.categoria}`
+      );
+      if (!termos.every(termo => alvo.includes(termo))) return false;
+    }
+    return true;
+  };
+
+  // Contagem por categoria (ignora a categoria selecionada, para os botões)
+  const porCategoria = {};
+  Object.keys(BATATIBA_CATEGORIAS).forEach(c => { porCategoria[c] = 0; });
+  let totalSemCategoria = 0;
+
+  lista.forEach(item => {
+    if (!passaSemCategoria(item)) return;
+    porCategoria[item.categoria] = (porCategoria[item.categoria] || 0) + 1;
+    totalSemCategoria++;
+  });
+
+  const itens = lista.filter(item =>
+    passaSemCategoria(item) && (categoria === 'todos' || item.categoria === categoria)
+  );
+
+  // Ordenação
+  const precoDe = (i) => Number(i.preco) || 0;
+  const porNome = (a, b) =>
+    String(a.nome || '').localeCompare(String(b.nome || ''), 'pt-BR', { sensitivity: 'base' });
+  const ordemCategorias = Object.keys(BATATIBA_CATEGORIAS);
+
+  switch (ordem) {
+    case 'nome-asc':   itens.sort(porNome); break;
+    case 'nome-desc':  itens.sort((a, b) => porNome(b, a)); break;
+    case 'preco-asc':  itens.sort((a, b) => precoDe(a) - precoDe(b) || porNome(a, b)); break;
+    case 'preco-desc': itens.sort((a, b) => precoDe(b) - precoDe(a) || porNome(a, b)); break;
+    case 'categoria':
+      itens.sort((a, b) =>
+        (ordemCategorias.indexOf(a.categoria) - ordemCategorias.indexOf(b.categoria)) || porNome(a, b));
+      break;
+    default: break; // 'padrao' = ordem em que foram cadastrados
+  }
+
+  // Estatísticas dos itens exibidos
+  const precos = itens.map(precoDe);
+  const precoMedio = precos.length ? precos.reduce((s, p) => s + p, 0) / precos.length : 0;
+  const precoMenor = precos.length ? Math.min(...precos) : 0;
+  const precoMaior = precos.length ? Math.max(...precos) : 0;
+
+  return {
+    itens,
+    totalGeral: lista.length,
+    porCategoria,
+    totalSemCategoria,
+    precoMedio,
+    precoMenor,
+    precoMaior,
+    faixaInvalida
+  };
+}
+
 // Roda a inicialização assim que este arquivo é carregado, em
 // qualquer página que o inclua.
 batatibaSeedDados();

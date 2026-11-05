@@ -488,26 +488,138 @@ document.addEventListener('DOMContentLoaded', () => {
         btnCancelarItemAdmin.classList.add('hidden');
     }
 
+    /* ----- Consulta (busca / filtro / ordenação / contagem) ----- */
+    const adminConsultaBusca = document.getElementById('adminConsultaBusca');
+    const adminConsultaCategoria = document.getElementById('adminConsultaCategoria');
+    const adminConsultaPrecoMin = document.getElementById('adminConsultaPrecoMin');
+    const adminConsultaPrecoMax = document.getElementById('adminConsultaPrecoMax');
+    const adminConsultaOrdem = document.getElementById('adminConsultaOrdem');
+    const adminConsultaLimpar = document.getElementById('adminConsultaLimpar');
+    const adminConsultaChips = document.getElementById('adminConsultaChips');
+    const adminConsultaResumo = document.getElementById('adminConsultaResumo');
+    const adminConsultaStats = document.getElementById('adminConsultaStats');
+
+    function escaparHtml(texto) {
+        return String(texto === null || texto === undefined ? '' : texto)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    function lerConsultaAdmin() {
+        return {
+            busca: adminConsultaBusca ? adminConsultaBusca.value : '',
+            categoria: adminConsultaCategoria ? adminConsultaCategoria.value : 'todos',
+            precoMin: adminConsultaPrecoMin ? adminConsultaPrecoMin.value : '',
+            precoMax: adminConsultaPrecoMax ? adminConsultaPrecoMax.value : '',
+            ordem: adminConsultaOrdem ? adminConsultaOrdem.value : 'padrao'
+        };
+    }
+
+    function atualizarPainelConsultaAdmin(resultado, filtros) {
+        // Chips: contagem por categoria (respeita busca e preço)
+        if (adminConsultaChips) {
+            const chips = [['todos', 'Todas', resultado.totalSemCategoria]];
+            Object.entries(rotulosCategoria).forEach(([chave, rotulo]) => {
+                chips.push([chave, rotulo, resultado.porCategoria[chave] || 0]);
+            });
+
+            adminConsultaChips.innerHTML = chips.map(([chave, rotulo, qtd]) => `
+                <button type="button" class="chip-consulta${filtros.categoria === chave ? ' ativo' : ''}" data-categoria="${chave}">
+                    ${escaparHtml(rotulo)} <b>${qtd}</b>
+                </button>
+            `).join('');
+        }
+
+        // Resumo: "Exibindo X de Y itens"
+        if (adminConsultaResumo) {
+            if (resultado.faixaInvalida) {
+                adminConsultaResumo.textContent = '⚠️ O preço mínimo não pode ser maior que o preço máximo.';
+            } else {
+                const total = resultado.totalGeral;
+                adminConsultaResumo.textContent =
+                    `Exibindo ${resultado.itens.length} de ${total} ${total === 1 ? 'item' : 'itens'}`;
+            }
+        }
+
+        // Estatísticas dos itens exibidos
+        if (adminConsultaStats) {
+            if (resultado.itens.length && !resultado.faixaInvalida) {
+                adminConsultaStats.innerHTML = `
+                    <div class="stat-consulta"><span>Preço médio</span><strong>${batatibaFormatarPreco(resultado.precoMedio)}</strong></div>
+                    <div class="stat-consulta"><span>Menor preço</span><strong>${batatibaFormatarPreco(resultado.precoMenor)}</strong></div>
+                    <div class="stat-consulta"><span>Maior preço</span><strong>${batatibaFormatarPreco(resultado.precoMaior)}</strong></div>
+                `;
+            } else {
+                adminConsultaStats.innerHTML = '';
+            }
+        }
+    }
+
     function renderizarCardapioAdmin() {
         if (!tabelaCardapioBody) return;
+
         const menu = batatibaGetMenu();
+        const filtros = lerConsultaAdmin();
+        const resultado = batatibaConsultarMenu(menu, filtros);
+
         tabelaCardapioBody.innerHTML = '';
 
-        menu.forEach((item) => {
+        if (!resultado.itens.length) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = '<td colspan="4" class="linha-vazia">Nenhum item encontrado para esta consulta.</td>';
+            tabelaCardapioBody.appendChild(tr);
+        }
+
+        resultado.itens.forEach((item) => {
+            const id = escaparHtml(item.id);
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td>${item.nome}</td>
-                <td>${rotulosCategoria[item.categoria] || item.categoria}</td>
-                <td><input type="number" min="0" step="0.01" class="input-preco-inline" data-id="${item.id}" value="${item.preco}"></td>
+                <td>${escaparHtml(item.nome)}</td>
+                <td>${escaparHtml(rotulosCategoria[item.categoria] || item.categoria)}</td>
+                <td><input type="number" min="0" step="0.01" class="input-preco-inline" data-id="${id}" value="${Number(item.preco) || 0}"></td>
                 <td>
                     <div class="linha-acoes">
-                        <button type="button" class="btn-tabela-salvar" data-acao="preco" data-id="${item.id}">Salvar preço</button>
-                        <button type="button" class="btn-tabela-editar" data-acao="editar" data-id="${item.id}">Editar</button>
-                        <button type="button" class="btn-tabela-remover" data-acao="remover" data-id="${item.id}">Remover</button>
+                        <button type="button" class="btn-tabela-salvar" data-acao="preco" data-id="${id}">Salvar preço</button>
+                        <button type="button" class="btn-tabela-editar" data-acao="editar" data-id="${id}">Editar</button>
+                        <button type="button" class="btn-tabela-remover" data-acao="remover" data-id="${id}">Remover</button>
                     </div>
                 </td>
             `;
             tabelaCardapioBody.appendChild(tr);
+        });
+
+        atualizarPainelConsultaAdmin(resultado, filtros);
+    }
+
+    // Eventos da consulta
+    [adminConsultaBusca, adminConsultaPrecoMin, adminConsultaPrecoMax].forEach(campo => {
+        if (campo) campo.addEventListener('input', renderizarCardapioAdmin);
+    });
+    [adminConsultaCategoria, adminConsultaOrdem].forEach(campo => {
+        if (campo) campo.addEventListener('change', renderizarCardapioAdmin);
+    });
+
+    // Clicar em um chip filtra por aquela categoria
+    if (adminConsultaChips) {
+        adminConsultaChips.addEventListener('click', (e) => {
+            const chip = e.target.closest('.chip-consulta');
+            if (!chip || !adminConsultaCategoria) return;
+            adminConsultaCategoria.value = chip.dataset.categoria;
+            renderizarCardapioAdmin();
+        });
+    }
+
+    if (adminConsultaLimpar) {
+        adminConsultaLimpar.addEventListener('click', () => {
+            if (adminConsultaBusca) adminConsultaBusca.value = '';
+            if (adminConsultaCategoria) adminConsultaCategoria.value = 'todos';
+            if (adminConsultaPrecoMin) adminConsultaPrecoMin.value = '';
+            if (adminConsultaPrecoMax) adminConsultaPrecoMax.value = '';
+            if (adminConsultaOrdem) adminConsultaOrdem.value = 'padrao';
+            renderizarCardapioAdmin();
+            if (adminConsultaBusca) adminConsultaBusca.focus();
         });
     }
 
