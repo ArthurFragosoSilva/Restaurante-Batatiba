@@ -545,14 +545,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Estatísticas dos itens exibidos
         if (adminConsultaStats) {
-            if (resultado.itens.length && !resultado.faixaInvalida) {
-                adminConsultaStats.innerHTML = `
-                    <div class="stat-consulta"><span>Preço médio</span><strong>${batatibaFormatarPreco(resultado.precoMedio)}</strong></div>
-                    <div class="stat-consulta"><span>Menor preço</span><strong>${batatibaFormatarPreco(resultado.precoMenor)}</strong></div>
-                    <div class="stat-consulta"><span>Maior preço</span><strong>${batatibaFormatarPreco(resultado.precoMaior)}</strong></div>
-                `;
-            } else {
+            if (resultado.faixaInvalida) {
                 adminConsultaStats.innerHTML = '';
+            } else {
+                const precos = resultado.itens.map(i => Number(i.preco) || 0);
+                const total = precos.length;
+                const soma = precos.reduce((acc, p) => acc + p, 0);
+                const media = total ? soma / total : 0;
+                const maior = total ? Math.max(...precos) : 0;
+                const menor = total ? Math.min(...precos) : 0;
+
+                adminConsultaStats.innerHTML = `
+                    <div class="stat-consulta"><span>Total de produtos</span><strong>${total}</strong></div>
+                    <div class="stat-consulta"><span>Soma dos preços</span><strong>${batatibaFormatarPreco(soma)}</strong></div>
+                    <div class="stat-consulta"><span>Preço médio</span><strong>${batatibaFormatarPreco(media)}</strong></div>
+                    <div class="stat-consulta"><span>Maior preço</span><strong>${batatibaFormatarPreco(maior)}</strong></div>
+                    <div class="stat-consulta"><span>Menor preço</span><strong>${batatibaFormatarPreco(menor)}</strong></div>
+                `;
             }
         }
     }
